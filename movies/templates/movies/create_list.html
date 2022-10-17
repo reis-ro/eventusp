@@ -5,12 +5,11 @@ Criar Filme
 {% endblock title %}
 
 {% block content %}
-<h2>Adicionar Filme</h2>
+<h2>Criar Lista</h2>
 
-<form action="{% url 'movies:create' %}" method="post">
+<form action="{% url 'movies:create-list' %}" method="post">
     {% csrf_token %}
-    {{ movie_form.as_p }}
-    {{ provider_form.as_p }}
+    {{ form.as_p }}
     <button type="submit">Criar</button>
 </form>
 

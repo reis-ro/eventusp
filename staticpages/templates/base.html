@@ -19,7 +19,8 @@
         <a href="{% url 'index' %}"> <img src="{% static 'logo.svg' %}"> </a> <!-- adicione esta linha -->
         <nav id="navegacao-principal">
             <ul>
-                <li><a href="{% url 'movies:index' %}">Filmes</a></li> <!-- adicione esta linha -->
+                <li><a href="{% url 'movies:index' %}">Filmes</a></li>
+                <li><a href="{% url 'movies:lists' %}">Listas</a></li> <!-- adicionar esta linha -->
                 <li><a href="{% url 'about' %}">Sobre</a></li>
             </ul>
         </nav>
