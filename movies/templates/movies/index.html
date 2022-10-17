@@ -10,8 +10,8 @@
 <section class="lista-de-cards">
     {% for movie in movie_list %}
     <article class="card">
-        <a href="{% url 'movies:detail' forloop.counter %}"><img src="{{ movie.poster_url }}"
-                alt="Poster do filme {{ movie.name}}"></a>
+        <a href="{% url 'movies:detail' movie.id %}"><img src="{{ movie.poster_url }}"
+                alt="Poster do filme {{ movie.name}}"></a> <!-- modifique esta linha -->
         <p>{{ movie.name }} ({{ movie.release_year }})</p>
     </article>
     {% endfor %}

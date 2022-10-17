@@ -12,6 +12,8 @@
     <ul>
         <li>Nome: {{ movie.name }}</li>
         <li>Ano de Lançamento: {{ movie.release_year }} </li>
+        <li><a href="{% url 'movies:update' movie.id %}">Editar</a></li>
+        <li><a href="{% url 'movies:delete' movie.id %}">Apagar</a></li>
     </ul>
 </section>
 
