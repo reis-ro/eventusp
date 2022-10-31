@@ -11,6 +11,9 @@ from .forms import MovieForm, ReviewForm, ProviderForm
 
 from django.views import generic
 
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
 class MovieListView(generic.ListView):
     model = Movie
     template_name = 'movies/index.html'
@@ -28,7 +31,8 @@ class ListListView(generic.ListView):
     model = List
     template_name = 'movies/lists.html'
 
-class ListCreateView(generic.CreateView):
+class ListCreateView(LoginRequiredMixin, PermissionRequiredMixin, 
+                        generic.CreateView):
     model = List
     template_name = 'movies/create_list.html'
     fields = ['name', 'author', 'movies']
@@ -52,6 +56,8 @@ def search_movies(request):
         context = {"movie_list": movie_list}
     return render(request, 'movies/search.html', context)
 
+@login_required
+@permission_required('movies.add_movie')
 def create_movie(request):
     if request.method == 'POST':
         movie_form = MovieForm(request.POST)

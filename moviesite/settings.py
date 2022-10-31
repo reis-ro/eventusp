@@ -137,3 +137,5 @@ django_heroku.settings(locals()) # adicione esta linha
 LOGIN_REDIRECT_URL = 'index'
 
 LOGOUT_REDIRECT_URL = 'index'
+
+LOGIN_URL = 'login'
