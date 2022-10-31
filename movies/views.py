@@ -11,46 +11,38 @@ from .forms import MovieForm, ReviewForm, ProviderForm
 
 from django.views import generic
 
-
-
-# def list_movies(request):
-#     movie_list = Movie.objects.all()
-#     context = {'movie_list': movie_list}
-#     return render(request, 'movies/index.html', context)
-
 class MovieListView(generic.ListView):
     model = Movie
     template_name = 'movies/index.html'
 
-# def list_movies(request):
-#     context = {"movie_list": movie_data}
-#     return render(request, 'movies/index.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if 'last_viewed' in self.request.session:
+            context['last_movies'] = []
+            for movie_id in self.request.session['last_viewed']:
+                context['last_movies'].append(
+                    get_object_or_404(Movie, pk=movie_id))
+        return context
 
-# def detail_movie(request, movie_id):
-#     movie = movie_data[movie_id - 1]
-#     return HttpResponse(
-#         f'Detalhes do filme {movie["name"]} ({movie["release_year"]})')
+class ListListView(generic.ListView):
+    model = List
+    template_name = 'movies/lists.html'
 
-# def detail_movie(request, movie_id):
-#     movie = Movie.objects.get(pk=movie_id)
-#     context = {'movie': movie}
-#     return render(request, 'movies/detail.html', context)
+class ListCreateView(generic.CreateView):
+    model = List
+    template_name = 'movies/create_list.html'
+    fields = ['name', 'author', 'movies']
+    success_url = reverse_lazy('movies:lists')
 
 def detail_movie(request, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
+    if 'last_viewed' not in request.session:
+        request.session['last_viewed'] = []
+    request.session['last_viewed'] = [movie_id] + request.session['last_viewed']
+    if len(request.session['last_viewed']) > 5:
+        request.session['last_viewed'] = request.session['last_viewed'][:-1]
     context = {'movie': movie}
     return render(request, 'movies/detail.html', context)
-
-# def search_movies(request):
-#     context = {}
-#     if request.GET.get('query', False):
-#         context = {
-#             "movie_list": [
-#                 m for m in movie_data
-#                 if request.GET['query'].lower() in m['name'].lower()
-#             ]
-#         }
-#     return render(request, 'movies/search.html', context)
 
 def search_movies(request):
     context = {}
@@ -59,18 +51,6 @@ def search_movies(request):
         movie_list = Movie.objects.filter(name__icontains=search_term)
         context = {"movie_list": movie_list}
     return render(request, 'movies/search.html', context)
-
-# def create_movie(request):
-#     if request.method == 'POST':
-#         movie_data.append({
-#             'name': request.POST['name'],
-#             'release_year': request.POST['release_year'],
-#             'poster_url': request.POST['poster_url']
-#         })
-#         return HttpResponseRedirect(
-#             reverse('movies:detail', args=(len(movie_data), )))
-#     else:
-#         return render(request, 'movies/create.html', {})
 
 def create_movie(request):
     if request.method == 'POST':
@@ -143,13 +123,3 @@ def create_review(request, movie_id):
     context = {'form': form, 'movie': movie}
     return render(request, 'movies/review.html', context)
 
-class ListListView(generic.ListView):
-    model = List
-    template_name = 'movies/lists.html'
-
-
-class ListCreateView(generic.CreateView):
-    model = List
-    template_name = 'movies/create_list.html'
-    fields = ['name', 'author', 'movies']
-    success_url = reverse_lazy('movies:lists')
