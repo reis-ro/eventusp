@@ -15,18 +15,18 @@ Listas
             <h3>{{list.name}} (de {{ list.author }}) </h3>
         </header>
         <div class="lista-de-cards">
-            {% for movie in list.movies.all %}
+            {% for event in list.events.all %}
             <div class="card">
-                <a href="{% url 'movies:detail' movie.id %}"><img src="{{ movie.poster_url }}"
-                        alt="Poster do filme {{ movie.name}}"></a>
-                <p>{{ movie.name }} ({{ movie.release_year }})</p>
+                <a href="{% url 'events:detail' event.id %}"><img src="{{ event.poster_url }}"
+                        alt="Poster do filme {{ event.name}}"></a>
+                <p>{{ event.name }} ({{ event.release_year }})</p>
             </div>
             {% endfor %}
         </div>
     </article>
     {% endfor %}
 
-    <a href="{% url 'movies:create-list' %}"><button>Crie sua Lista</button></a>
+    <a href="{% url 'events:create-list' %}"><button>Crie sua Lista</button></a>
 </section>
 
 {% endblock content %}

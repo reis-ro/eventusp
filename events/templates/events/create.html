@@ -7,9 +7,9 @@ Criar Filme
 {% block content %}
 <h2>Adicionar Filme</h2>
 
-<form action="{% url 'movies:create' %}" method="post">
+<form action="{% url 'events:create' %}" method="post">
     {% csrf_token %}
-    {{ movie_form.as_p }}
+    {{ event_form.as_p }}
     {{ provider_form.as_p }}
     <button type="submit">Criar</button>
 </form>

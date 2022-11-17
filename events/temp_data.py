@@ -1,4 +1,4 @@
-movie_data = [{
+event_data = [{
     "id":
     "1",
     "name":
@@ -308,7 +308,7 @@ movie_data = [{
     "id":
     "35",
     "name":
-    "A Silent Voice: The Movie",
+    "A Silent Voice: The Event",
     "release_year":
     "2016",
     "poster_url":
@@ -371,7 +371,7 @@ movie_data = [{
     "id":
     "42",
     "name":
-    "Steven Universe: The Movie",
+    "Steven Universe: The Event",
     "release_year":
     "2019",
     "poster_url":
@@ -425,7 +425,7 @@ movie_data = [{
     "id":
     "48",
     "name":
-    "Demon Slayer -Kimetsu no Yaiba- The Movie: Mugen Train",
+    "Demon Slayer -Kimetsu no Yaiba- The Event: Mugen Train",
     "release_year":
     "2020",
     "poster_url":

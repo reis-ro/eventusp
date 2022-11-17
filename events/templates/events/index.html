@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Todos os Filmes</h2>
+<section>
+    <p>Muitos resultados? <a href="{% url 'events:search' %}">Buscar Filmes</a></p>
+    {% if perms.events.add_movie %}
+        <p>Não encontrou o filme? <a href="{% url 'events:create' %}">Adicionar Novo Filme</a></p>
+    {% endif%}
+</section>
+{% if event_list %}
+<section class="lista-de-cards">
+    {% for event in event_list %}
+    <article class="card">
+        <a href="{% url 'events:detail' event.id %}"><img src="{{ event.poster_url }}"
+                alt="Poster do filme {{ event.name}}"></a> <!-- modifique esta linha -->
+        <p>{{ event.name }} ({{ event.release_year }})</p>
+    </article>
+    {% endfor %}
+</section>
+{% else %}
+<p>Não foi encontrado nenhum filme.</p>
+{% endif %}
+
+{% if last_movies %}
+<hr>
+<h2>Últimos vistos</h2>
+<section class="lista-de-cards">
+    {% for last_movie in last_movies %}
+    <article class="small-card">
+        <a href="{% url 'events:detail' last_movie.id %}"><img src="{{ last_movie.poster_url }}"
+                alt="Poster do filme {{ last_movie.name}}"></a>
+    </article>
+    {% endfor %}
+</section>
+{% endif %}
+
+{% endblock content %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Resenhar Filme {{ event.name }} ({{ event.release_year }})</h2>
+
+<form action="{% url 'events:review' event.id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Postar Resenha</button>
+</form>
+
+<p><a href="{% url 'events:detail' event.id %}">Voltar para a página do filme</a></p>
+{% endblock content %}

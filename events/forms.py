@@ -1,10 +1,10 @@
 from django.forms import ModelForm
-from .models import Movie, Review, Provider
+from .models import Event, Review, Provider
 
 
-class MovieForm(ModelForm):
+class EventForm(ModelForm):
     class Meta:
-        model = Movie
+        model = Event
         fields = [
             'name',
             'release_year',

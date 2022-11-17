@@ -1,4 +1,4 @@
-"""moviesite URL Configuration
+"""eventsite URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
@@ -18,7 +18,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path('', include('staticpages.urls')),
-    path('movies/', include('movies.urls')),
+    path('events/', include('events.urls')),
     path('accounts/', include('accounts.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),

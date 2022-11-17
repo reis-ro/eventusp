@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ event.name }} ({{ event.release_year }}
+{% endblock title %}
+
+{% block content %}
+<h2>Detalhes do Filme {{ event.name }} ({{ event.release_year }})</h2>
+
+<section class="dados-de-filme">
+    <img src="{{ event.poster_url }}" alt="Poster do filme {{ event.name}}">
+    <ul>
+        <li>Nome: {{ event.name }}</li>
+        <li>Ano de Lançamento: {{ event.release_year }} </li>
+        {% if event.provider %}
+            <li>Disponibilidade de Streaming: {{ event.provider.service }} </li>
+            {% if event.provider.has_flat_price %}
+                <li>Preço: FLAT </li>
+            {% else %}
+                <li>Preço: R${{ event.provider.price }} </li>
+            {% endif %}
+        {% endif %}
+        {% if event.list_set.all %}
+           <li>Incluso nas listas: {{ event.list_set.all|join:", " }} </li>
+        {% endif %}
+        <li><a href="{% url 'events:update' event.id %}">Editar</a></li>
+        <li><a href="{% url 'events:delete' event.id %}">Apagar</a></li>
+    </ul>
+</section>
+
+<hr>
+
+<section>
+    <header>
+        <h3>Resenhas</h3>
+    </header>
+    <ul>
+        {% if event.review_set.all %}
+            {% for review in event.review_set.all %}
+                <figure>
+                    <blockquote>
+                        "{{ review.text }}"
+                    </blockquote>
+                    <figcaption>—{{ review.author }}
+                </figure>
+            {% endfor %}
+        {% else %}
+            <p>Ainda não existe nenhuma resenha para este filme.</p>
+        {% endif %}
+    </ul>
+</section>
+
+</ul>
+    
+<hr>
+
+<a href="{% url 'events:review' event.pk %}"><button>Crie sua Resenha</button></a>
+</section>
+
+{% endblock content %}

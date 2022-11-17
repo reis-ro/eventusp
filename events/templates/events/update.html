@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Atualizar Dados do Filme {{ movie.name }}({{ movie.release_year}})</h2>
-<form method="POST" action="{% url 'movies:update' movie.id%}">
+<h2>Atualizar Dados do Filme {{ event.name }}({{ event.release_year}})</h2>
+<form method="POST" action="{% url 'events:update' event.id%}">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Atualizar</button>
