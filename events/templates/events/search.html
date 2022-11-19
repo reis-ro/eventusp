@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Busca de Filmes por Nome</h2>
+<h2>Busca de Eventos por Nome</h2>
 <form action="{% url 'events:search' %}">
     <p>
         <label for="id_query">Título:</label>
@@ -16,13 +16,13 @@
 <section class="lista-de-cards">
     {% for event in event_list %}
     <article class="card">
-        <img src="{{ event.poster_url }}" alt="Poster do filme {{ event.name}}">
-        <p>{{ event.name }} ({{ event.release_year }})</p>
+        <img src="{{ event.poster_url }}" alt="Poster do evento {{ event.name}}">
+        <p>{{ event.name }} ({{ event.date }})</p>
     </article>
     {% endfor %}
 </section>
 {% else %}
-<p>Não foi encontrado nenhum filme para a busca.</p>
+<p>Não foi encontrado nenhum evento para a busca.</p>
 {% endif %}
 
 {% endblock content %}

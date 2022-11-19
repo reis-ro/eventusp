@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Atualizar Dados do Filme {{ event.name }}({{ event.release_year}})</h2>
+<h2>Atualizar Dados do Evento {{ event.name }}({{ event.date}})</h2>
 <form method="POST" action="{% url 'events:update' event.id%}">
     {% csrf_token %}
     {{ form.as_p }}

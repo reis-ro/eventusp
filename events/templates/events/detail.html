@@ -1,17 +1,17 @@
 {% extends 'base.html' %}
 
 {% block title %}
-{{ event.name }} ({{ event.release_year }}
+{{ event.name }} ({{ event.date }}
 {% endblock title %}
 
 {% block content %}
-<h2>Detalhes do Filme {{ event.name }} ({{ event.release_year }})</h2>
+<h2>Detalhes do Evento {{ event.name }}</h2>
 
-<section class="dados-de-filme">
-    <img src="{{ event.poster_url }}" alt="Poster do filme {{ event.name}}">
+<section class="dados-de-evento">
+    <img src="{{ event.poster_url }}" alt="Poster do evento {{ event.name}}">
     <ul>
         <li>Nome: {{ event.name }}</li>
-        <li>Ano de Lançamento: {{ event.release_year }} </li>
+        <li>Data: {{ event.date }} </li>
         {% if event.provider %}
             <li>Disponibilidade de Streaming: {{ event.provider.service }} </li>
             {% if event.provider.has_flat_price %}
@@ -45,7 +45,7 @@
                 </figure>
             {% endfor %}
         {% else %}
-            <p>Ainda não existe nenhuma resenha para este filme.</p>
+            <p>Ainda não existe nenhuma resenha para este evento.</p>
         {% endif %}
     </ul>
 </section>

@@ -4,7 +4,7 @@
 <form action="{% url 'events:delete' event.id %}" method="post">
     {% csrf_token %}
     <p>
-        Você tem certeza que deseja apagar o filme "{{ event.name }} ({{ event.release_year }})"?
+        Você tem certeza que deseja apagar o evento "{{ event.name }} ({{ event.date }})"?
     </p>
     <button type="submit">Apagar</button>
 </form>

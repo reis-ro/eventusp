@@ -5,7 +5,7 @@ Listas
 {% endblock title %}
 
 {% block content %}
-<h2>Listas de Filmes</h2>
+<h2>Listas de Eventos</h2>
 
 <section>
     {% for list in list_list %}
@@ -18,8 +18,8 @@ Listas
             {% for event in list.events.all %}
             <div class="card">
                 <a href="{% url 'events:detail' event.id %}"><img src="{{ event.poster_url }}"
-                        alt="Poster do filme {{ event.name}}"></a>
-                <p>{{ event.name }} ({{ event.release_year }})</p>
+                        alt="Poster do evento {{ event.name}}"></a>
+                <p>{{ event.name }} ({{ event.dater }})</p>
             </div>
             {% endfor %}
         </div>
