@@ -3,12 +3,19 @@ from django.conf import settings
 
 
 class Event(models.Model):
-    name = models.CharField(max_length=255)
-    release_year = models.IntegerField()
-    poster_url = models.URLField(max_length=200, null=True)
+    name = models.CharField(max_length=50)
+    date = models.DateField('data', null=True, blank=True)
+    time = models.TimeField('tempo', null=True, blank=True)
+    duration = models.TimeField('tempo', null=True, blank=True)
+    place = models.CharField(max_length=50)
+    description = models.CharField(max_length=1500)
+    summary = models.CharField(max_length=500)
+    max_participants = models.IntegerField()
+    cover_photo_url = models.URLField(max_length=200, null=True)
+    event_photo_url = models.URLField(max_length=200, null=True)
 
     def __str__(self):
-        return f'{self.name} ({self.release_year})'
+        return f'{self.name} ({self.date})'
 
 
 class Review(models.Model):
@@ -29,19 +36,3 @@ class List(models.Model):
 
     def __str__(self):
         return f'{self.name} by {self.author}'
-
-class Provider(models.Model):
-    event = models.OneToOneField(
-        Event,
-        on_delete=models.CASCADE,
-        primary_key=True,
-    )
-    service = models.CharField(max_length=255, blank=True)
-    has_flat_price = models.BooleanField(default=False)
-    price = models.DecimalField(max_digits=6,
-                                decimal_places=2,
-                                null=True,
-                                blank=True)
-
-    def __str__(self):
-        return f'{self.service} @ {self.price if self.price else "flat"}'

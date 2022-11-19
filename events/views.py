@@ -6,8 +6,8 @@ from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
 
 from django.urls import reverse, reverse_lazy
-from .models import Event, Review, List, Provider
-from .forms import EventForm, ReviewForm, ProviderForm
+from .models import Event, Review, List
+from .forms import EventForm, ReviewForm
 
 from django.views import generic
 
@@ -21,9 +21,9 @@ class EventListView(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if 'last_viewed' in self.request.session:
-            context['last_movies'] = []
+            context['last_events'] = []
             for event_id in self.request.session['last_viewed']:
-                context['last_movies'].append(
+                context['last_events'].append(
                     get_object_or_404(Event, pk=event_id))
         return context
 
@@ -35,10 +35,10 @@ class ListCreateView(LoginRequiredMixin, PermissionRequiredMixin,
                         generic.CreateView):
     model = List
     template_name = 'events/create_list.html'
-    fields = ['name', 'author', 'events']
+    fields = ['name', 'date', 'events']
     success_url = reverse_lazy('events:lists')
 
-def detail_movie(request, event_id):
+def detail_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     if 'last_viewed' not in request.session:
         request.session['last_viewed'] = []
@@ -48,7 +48,7 @@ def detail_movie(request, event_id):
     context = {'event': event}
     return render(request, 'events/detail.html', context)
 
-def search_movies(request):
+def search_events(request):
     context = {}
     if request.GET.get('query', False):
         search_term = request.GET['query'].lower()
@@ -57,34 +57,28 @@ def search_movies(request):
     return render(request, 'events/search.html', context)
 
 @login_required
-@permission_required('events.add_movie')
-def create_movie(request):
+@permission_required('events.add_event')
+def create_event(request):
     if request.method == 'POST':
         event_form = EventForm(request.POST)
-        provider_form = ProviderForm(request.POST)
         if event_form.is_valid():
             event = Event(**event_form.cleaned_data)
             event.save()
-            if provider_form.is_valid(
-            ) and provider_form.cleaned_data['service']:
-                provider = Provider(event=event, **provider_form.cleaned_data)
-                provider.save()
             return HttpResponseRedirect(
                 reverse('events:detail', args=(event.pk, )))
     else:
         event_form = EventForm()
-        provider_form = ProviderForm()
-    context = {'event_form': event_form, 'provider_form': provider_form}
+    context = {'event_form': event_form}
     return render(request, 'events/create.html', context)
 
-def update_movie(request, event_id):
+def update_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
 
     if request.method == "POST":
         form = EventForm(request.POST)
         if form.is_valid():
             event.name = form.cleaned_data['name']
-            event.release_year = form.cleaned_data['release_year']
+            event.date = form.cleaned_data['date']
             event.poster_url = form.cleaned_data['poster_url']
             event.save()
             return HttpResponseRedirect(
@@ -93,15 +87,22 @@ def update_movie(request, event_id):
         form = EventForm(
             initial={
                 'name': event.name,
-                'release_year': event.release_year,
-                'poster_url': event.poster_url
+                'date': event.date,
+                'time': event.time,
+                'duration': event.duration,
+                'place': event.place,
+                'description': event.description,
+                'summary': event.summary,
+                'max_participants': event.max_paticipants,
+                'cover_photo_url': event.cover_photo_url,
+                'event_photo_url': event.event_photo_url
             })
 
     context = {'event': event, 'form': form}
     return render(request, 'events/update.html', context)
 
 
-def delete_movie(request, event_id):
+def delete_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
 
     if request.method == "POST":

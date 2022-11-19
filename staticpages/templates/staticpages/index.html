@@ -1,10 +1,44 @@
-{% extends 'base.html' %}
+{% load static %} <!-- adicione esta linha -->
 
-{% block title %}
-Página Inicial
-{% endblock title %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block content %}
-<h1><i>Watch that film!</i></h1>
-<p>A Página para Comunidade Resenhadora de Filmes</p>
-{% endblock content %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        Página Inicial | Watch that film!
+    </title>
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" /> <!-- adicione esta linha -->
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"> <!-- adicione esta linha -->
+</head>
+
+<body>
+    <header id="cabecalho-principal">
+        <a href="{% url 'index_log' %}"> <img src="{% static 'logo.svg' %}"> </a> <!-- adicione esta linha -->
+        <nav id="navegacao-principal">
+            <ul>
+                {% if user.is_authenticated %}
+                    <li> Logado com {{ user.username }} </li>
+                    <li><a href="{% url 'logout' %}">Log out</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Log in</a></li>
+                {% endif %}
+                <li><a href="{% url 'about' %}">Sobre</a></li>
+            </ul>
+        </nav>
+
+    </header>
+    <main id="conteiner-principal">
+        <h1><i>EventUSP</i></h1>
+        <p>Confira os eventos em alta</p>
+    </main>
+    <footer id="rodape-principal">
+        <p>
+            <small>&copy Copyright 2022</small>
+        </p>
+    </footer>
+</body>
+
+</html>

@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Todos os Filmes</h2>
+<h2>Todos os Eventos</h2>
 <section>
-    <p>Muitos resultados? <a href="{% url 'events:search' %}">Buscar Filmes</a></p>
-    {% if perms.events.add_movie %}
-        <p>Não encontrou o filme? <a href="{% url 'events:create' %}">Adicionar Novo Filme</a></p>
+    <p>Muitos resultados? <a href="{% url 'events:search' %}">Buscar Eventos</a></p>
+    {% if perms.events.add_event %}
+        <p>Não encontrou o evento? <a href="{% url 'events:create' %}">Adicionar Novo Evento</a></p>
     {% endif%}
 </section>
 {% if event_list %}
@@ -13,23 +13,23 @@
     {% for event in event_list %}
     <article class="card">
         <a href="{% url 'events:detail' event.id %}"><img src="{{ event.poster_url }}"
-                alt="Poster do filme {{ event.name}}"></a> <!-- modifique esta linha -->
-        <p>{{ event.name }} ({{ event.release_year }})</p>
+                alt="Poster do evento {{ event.name}}"></a> <!-- modifique esta linha -->
+        <p>{{ event.name }} ({{ event.date }})</p>
     </article>
     {% endfor %}
 </section>
 {% else %}
-<p>Não foi encontrado nenhum filme.</p>
+<p>Não foi encontrado nenhum evento.</p>
 {% endif %}
 
-{% if last_movies %}
+{% if last_events %}
 <hr>
 <h2>Últimos vistos</h2>
 <section class="lista-de-cards">
-    {% for last_movie in last_movies %}
+    {% for last_event in last_events %}
     <article class="small-card">
-        <a href="{% url 'events:detail' last_movie.id %}"><img src="{{ last_movie.poster_url }}"
-                alt="Poster do filme {{ last_movie.name}}"></a>
+        <a href="{% url 'events:detail' last_event.id %}"><img src="{{ last_event.poster_url }}"
+                alt="Poster do evento {{ last_event.name}}"></a>
     </article>
     {% endfor %}
 </section>

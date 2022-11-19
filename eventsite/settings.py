@@ -134,8 +134,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Activate Django-Heroku.
 django_heroku.settings(locals()) # adicione esta linha
 
-LOGIN_REDIRECT_URL = 'index'
+LOGIN_REDIRECT_URL = 'index_log'
 
 LOGOUT_REDIRECT_URL = 'index'
 
 LOGIN_URL = 'login'
+
+AUTH_USER_MODEL = 'accounts.User'
+
+AUTHENTICATION_BACKENDS = ['accounts.backend.EmailBackend']
