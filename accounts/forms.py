@@ -19,19 +19,24 @@ class PublicoRegisterForm(UserCreationForm):
                     required=True
             )
 
-    class Meta(UserCreationForm.Meta):
+    class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email', 'cpf', 'password1', 'password2']
-        model.username = model.email
 
     @transaction.atomic
     def save(self):
-        user = super().save(commit=False)
+        user = User(username=self.cleaned_data.get('email'),
+                    first_name=self.cleaned_data.get('first_name'),
+                    last_name=self.cleaned_data.get('last_name'),
+                    email=self.cleaned_data.get('email'),
+                    cpf=self.cleaned_data.get('cpf')
+                    )
         user.save()
         publico = Publico.objects.create(
                         user=user,
                         papel_na_usp=self.cleaned_data.get('papel_na_usp'),
-                        unidade=self.cleaned_data.get('unidade'))
+                        unidade=self.cleaned_data.get('unidade')
+                        )
         publico.save()
         return publico
 
