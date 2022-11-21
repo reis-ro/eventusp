@@ -8,6 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import views as auth_views
 from .forms import LoginForm, PublicoRegisterForm, PromotorRegisterForm
 from django.contrib.auth.models import Group 
+from django.contrib.auth import login
 
 
 def signup_publico(request):
@@ -16,7 +17,9 @@ def signup_publico(request):
         if form.is_valid():
             user = form.save()                                
             user_group = Group.objects.get(name='publico') 
-            user.groups.add(user_group)                       
+            user.groups.add(user_group)     
+
+            login(request, user)                  
 
             return HttpResponseRedirect(reverse('login'))
     else:

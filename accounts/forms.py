@@ -25,20 +25,24 @@ class PublicoRegisterForm(UserCreationForm):
 
     @transaction.atomic
     def save(self):
-        user = User(username=self.cleaned_data.get('email'),
-                    first_name=self.cleaned_data.get('first_name'),
-                    last_name=self.cleaned_data.get('last_name'),
-                    email=self.cleaned_data.get('email'),
-                    cpf=self.cleaned_data.get('cpf')
-                    )
+        user = super().save(commit=False)
+
+        user.username=self.cleaned_data.get('email')
+        user.first_name=self.cleaned_data.get('first_name')
+        user.last_name=self.cleaned_data.get('last_name')
+        user.email=self.cleaned_data.get('email')
+        user.cpf=self.cleaned_data.get('cpf')
+        
         user.save()
+
         publico = Publico.objects.create(
                         user=user,
                         papel_na_usp=self.cleaned_data.get('papel_na_usp'),
                         unidade=self.cleaned_data.get('unidade')
                         )
         publico.save()
-        return publico
+
+        return user
 
 class PromotorRegisterForm(UserCreationForm):
     #email = forms.EmailField(required=True)

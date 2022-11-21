@@ -20,7 +20,7 @@
         <nav id="navegacao-principal">
             <ul>
                 {% if user.is_authenticated %}
-                    <li> Logado com {{ user.username }} </li>
+                    <li> Logado com {{ user.first_name }} {{ user.last_name }} </li>
                     <li><a href="{% url 'logout' %}">Log out</a></li>
                 {% else %}
                     <li><a href="{% url 'login' %}">Log in</a></li>
