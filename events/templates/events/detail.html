@@ -8,10 +8,17 @@
 <h2>Detalhes do Evento {{ event.name }}</h2>
 
 <section class="dados-de-evento">
-    <img src="{{ event.poster_url }}" alt="Poster do evento {{ event.name}}">
+    <img src="{{ event.cover_photo_url }}" alt="Poster do evento {{ event.name}}">
     <ul>
         <li>Nome: {{ event.name }}</li>
         <li>Data: {{ event.date }} </li>
+        <li>Data: {{ event.time }} </li>
+        <li>Data: {{ event.duration }} </li>
+        <li>Data: {{ event.place }} </li>
+        <li>Data: {{ event.description }} </li>
+        <li>Data: {{ event.summary }} </li>
+        <li>Data: {{ event.max_participants }} </li>
+        
         {% if event.provider %}
             <li>Disponibilidade de Streaming: {{ event.provider.service }} </li>
             {% if event.provider.has_flat_price %}
