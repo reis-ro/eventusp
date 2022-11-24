@@ -21,6 +21,8 @@ class Organizacao(models.Model):
             return f'{self.org}'
 
 class User(AbstractUser):
+    first_name = models.CharField(_("first name"), max_length=150)
+    last_name = models.CharField(_("last name"), max_length=150)
     email = models.EmailField(_('email address'), unique=True)
     cpf = models.CharField(_('CPF'), max_length=11, unique=True)
 
@@ -56,6 +58,8 @@ class Promotor(models.Model):
             Organizacao,
             on_delete=models.CASCADE,
         )
+
+    confirmado = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}'

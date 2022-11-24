@@ -3,6 +3,9 @@ from django import forms
 from .models import Publico, Promotor, User, PapelNaUSP, Unidade, Organizacao
 from django.db import transaction
 from django.core.exceptions import ValidationError
+from django.urls import reverse
+from django.utils.functional import lazy
+from django.utils.translation import gettext_lazy as _
 
 class PublicoRegisterForm(UserCreationForm):
     papel_na_usp = forms.ModelChoiceField(
@@ -14,6 +17,10 @@ class PublicoRegisterForm(UserCreationForm):
                     queryset=Unidade.objects.all(),
                     required=True
             )
+#mark_safe('Li e concordo com os <a href="//www.blogger.com/questions/whyname/" "termos de uso"></a>)')
+    # terms_and_conditions = reverse_lazy("login")
+    termos_de_uso = forms.BooleanField()
+    #termos_de_uso = forms.BooleanField(label = "Privacy <a href='%s' a>policy</a>" % reverse('termos_de_uso'))
 
     class Meta:
         model = User

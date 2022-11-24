@@ -19,7 +19,7 @@ def signup_publico(request):
             user_group = Group.objects.get(name='publico') 
             user.groups.add(user_group)     
 
-            login(request, user)                  
+            #login(request, user)                  
 
             return HttpResponseRedirect(reverse('login'))
     else:
