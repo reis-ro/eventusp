@@ -77,8 +77,12 @@ class PublicoRegisterForm(UserCreationForm):
 class PromotorRegisterForm(UserCreationForm):
     organizacao = forms.ModelChoiceField(
                     queryset=Organizacao.objects.all(),
-                    required=True
+                    required=True,
+                    label='Organização'
                 )
+    
+    profile_photo = forms.ImageField(label='Foto de Perfil')
+
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email', 'cpf', 'password1', 'password2']

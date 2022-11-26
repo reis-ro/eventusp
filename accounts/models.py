@@ -63,6 +63,8 @@ class Promotor(models.Model):
 
     request_date = models.DateTimeField(auto_now=True)
 
+    profile_photo = models.ImageField(null=True, blank=True, upload_to="images/")
+
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}'
     
