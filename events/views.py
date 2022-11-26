@@ -133,5 +133,14 @@ def create_review(request, event_id):
 @user_passes_test(lambda u: u.is_superuser)
 def admin_approval(request):
     event_list = Event.objects.all().order_by('-date')
-    return render(request, 'events/admin_approval.html', {"event_list":event_list})
+    
+    if request.method == "POST":
+        id_list = request.POST.getlist('boxes')
+
+        event_list.update(approved=False)
+
+        for x in id_list:
+            Event.objects.filter(pk=int(x)).update(approved=True)
+    else:
+        return render(request, 'events/admin_approval.html', {"event_list":event_list})
 
