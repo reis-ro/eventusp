@@ -14,4 +14,5 @@ urlpatterns = [
     path('<int:event_id>/review/', views.create_review, name='review'),
     path('lists/', views.ListListView.as_view(), name='lists'),
     path('lists/create', views.ListCreateView.as_view(), name='create-list'),
+    path('admin_approval', views.admin_approval, name='admin_approval'),
 ]

@@ -13,6 +13,7 @@ class Event(models.Model):
     max_participants = models.IntegerField()
     cover_photo_url = models.URLField(max_length=200, null=True)
     event_photo_url = models.URLField(max_length=200, null=True)
+    approved = models.BooleanField('Aprovado', default=False)
 
     def __str__(self):
         return f'{self.name} ({self.date})'

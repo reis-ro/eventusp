@@ -10,7 +10,7 @@ from django.utils.translation import gettext_lazy as _
 class PublicoRegisterForm(UserCreationForm):
     papel_na_usp = forms.ModelChoiceField(
                     queryset=PapelNaUSP.objects.all(),
-                    required=True
+                    required=True, label='Papel na USP',
                 )
 
     unidade = forms.ModelChoiceField(
@@ -25,6 +25,7 @@ class PublicoRegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email', 'cpf', 'password1', 'password2']
+        labels = {'first_name': 'Nome', 'last_name': 'Sobrenome', 'email': 'Email', 'cpf': 'CPF'}
 
     def clean_cpf(self):
 

@@ -11,7 +11,7 @@ from .forms import EventForm, ReviewForm
 
 from django.views import generic
 
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 class EventListView(generic.ListView):
@@ -129,4 +129,9 @@ def create_review(request, event_id):
         form = ReviewForm()
     context = {'form': form, 'event': event}
     return render(request, 'events/review.html', context)
+
+@user_passes_test(lambda u: u.is_superuser)
+def admin_approval(request):
+    event_list = Event.objects.all().order_by('-date')
+    return render(request, 'events/admin_approval.html', {"event_list":event_list})
 
