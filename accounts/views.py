@@ -15,7 +15,8 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.template.loader import render_to_string
 from django.db.models.query_utils import Q
-from .models import User
+from .models import User, Promotor
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 
 
 def signup_publico(request):
@@ -81,3 +82,20 @@ def password_reset_request(request):
 					return redirect("password_reset/done/")
 	password_reset_form = PasswordResetForm()
 	return render(request=request, template_name="password/password_reset.html", context={"password_reset_form":password_reset_form})
+
+@user_passes_test(lambda u: u.is_superuser)
+def admin_approval(request):
+    promotor_list = Promotor.objects.all().order_by('-request_date')
+    
+    if request.method == "POST":
+        id_list = request.POST.getlist('boxes')
+
+        promotor_list.update(approved=False)
+
+        for x in id_list:
+            Promotor.objects.filter(pk=int(x)).update(approved=True)
+            
+        return HttpResponseRedirect(reverse('admin_approval'))
+    
+    else:
+        return render(request, 'accounts/admin_approval.html', {"promotor_list":promotor_list})

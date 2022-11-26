@@ -59,7 +59,9 @@ class Promotor(models.Model):
             on_delete=models.CASCADE,
         )
 
-    confirmado = models.BooleanField(default=False)
+    approved = models.BooleanField(default=False)
+
+    request_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}'

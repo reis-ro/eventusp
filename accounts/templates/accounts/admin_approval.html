@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Aprovação de Eventos
+Aprovação de Promotores
 {% endblock title %}
 
 {% block content %}
-<h1>Portal de Aprovação de Eventos</h1>
+<h1>Portal de Aprovação de Promotores</h1>
 
 <form action="" method=POST>
     {% csrf_token %}
@@ -13,25 +13,32 @@ Aprovação de Eventos
 <table class="table table-striped table-hover table-bordered">
     <thead>
         <tr>
-            <th scope="col">Nome do evento</th>
+            <th scope="col">Promotor</th>
             <th scope="col">Aprovado</th>
         </tr>
     </thead>
     <tbody>
-        {% for event in event_list %}
+        {% for promotor in promotor_list %}
             <tr>
-                <td> {{ event }} </td>
                 <td> 
-                    {% if event.approved %}
+                    <div class="dropdown">
+                        <h6 class="dropdown-header">{{ promotor }}</h6>
+                        <a class="dropdown-item" href="#">Email: {{ promotor.user.email }}</a>
+                        <a class="dropdown-item" href="#">CPF: {{ promotor.user.cpf }}</a>
+                        <a class="dropdown-item" href="#">Organização: {{ promotor.organizacao }}</a>
+                    </div>
+                </td>
+                <td> 
+                    {% if promotor.approved %}
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" 
-                            checked="checked" value = {{event.id}} name="boxes">
+                            checked="checked" value = {{promotor.id}} name="boxes">
                     </div>
 
                     {% else %}
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" 
-                             value = {{event.id}} name="boxes">
+                             value = {{promotor.id}} name="boxes">
                     </div>
                     {% endif %}
                 </td>

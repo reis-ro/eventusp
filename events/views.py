@@ -141,6 +141,9 @@ def admin_approval(request):
 
         for x in id_list:
             Event.objects.filter(pk=int(x)).update(approved=True)
+
+        return HttpResponseRedirect(reverse('events:admin_approval'))
+    
     else:
         return render(request, 'events/admin_approval.html', {"event_list":event_list})
 

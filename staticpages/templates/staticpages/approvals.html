@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Aprovações de Administrador
+{% endblock title %}
+
+{% block content %}
+<h2>Aprovações</h2>
+
+<p>Escolha o que você quer gerenciar:</p>
+
+<div class="list-group">
+    <a href="{% url 'events:admin_approval' %}" class="list-group-item list-group-item-action">Eventos</a>
+    <a href="{% url 'admin_approval' %}" class="list-group-item list-group-item-action">Promotores</a>
+</div>
+{% endblock content %}
