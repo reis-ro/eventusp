@@ -84,8 +84,8 @@ def password_reset_request(request):
 	return render(request=request, template_name="password/password_reset.html", context={"password_reset_form":password_reset_form})
 
 @user_passes_test(lambda u: u.is_superuser)
-def admin_approval(request):
-    promotor_list = Promotor.objects.all().order_by('-request_date')
+def admin_approved(request):
+    promotor_list = Promotor.objects.filter(approved=True).order_by('-request_date')
     
     if request.method == "POST":
         id_list = request.POST.getlist('boxes')
@@ -94,6 +94,23 @@ def admin_approval(request):
 
         for x in id_list:
             Promotor.objects.filter(pk=int(x)).update(approved=True)
+            
+        return HttpResponseRedirect(reverse('admin_approved'))
+    
+    else:
+        return render(request, 'accounts/admin_approved.html', {"promotor_list":promotor_list})
+    
+@user_passes_test(lambda u: u.is_superuser)
+def admin_approval(request):
+    promotor_list = Promotor.objects.filter(approved=False).order_by('-request_date')
+    
+    if request.method == "POST":
+        id_list = request.POST.getlist('boxes') 
+        promotor_list.update(approved=False)
+
+        for x in id_list:
+            Promotor.objects.filter(pk=int(x)).update(approved=True)
+            #print(Promotor.objects.filter(pk=int(x)))
             
         return HttpResponseRedirect(reverse('admin_approval'))
     

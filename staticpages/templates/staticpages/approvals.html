@@ -11,6 +11,7 @@ Aprovações de Administrador
 
 <div class="list-group">
     <a href="{% url 'events:admin_approval' %}" class="list-group-item list-group-item-action">Eventos</a>
-    <a href="{% url 'admin_approval' %}" class="list-group-item list-group-item-action">Promotores</a>
+    <a href="{% url 'admin_approved' %}" class="list-group-item list-group-item-action">Promotores Aprovados</a>
+    <a href="{% url 'admin_approval' %}" class="list-group-item list-group-item-action">Promotores Pendentes</a>
 </div>
 {% endblock content %}
