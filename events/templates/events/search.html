@@ -15,10 +15,12 @@
 {% if event_list %}
 <section class="lista-de-cards">
     {% for event in event_list %}
-    <article class="card">
-        <img src="{{ event.poster_url }}" alt="Poster do evento {{ event.name}}">
-        <p>{{ event.name }} ({{ event.date }})</p>
-    </article>
+        {% if event.approved %}
+            <article class="card">
+                <img src="{{ event.poster_url }}" alt="Poster do evento {{ event.name}}">
+                <p>{{ event.name }} ({{ event.date }})</p>
+            </article>
+        {% endif %}
     {% endfor %}
 </section>
 {% else %}
