@@ -1,9 +1,24 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Event, Review
+from .models import Event, Review, Formato, Tema, TipoOrganizacao
 
 
 class EventForm(ModelForm):
+    formato = forms.ModelChoiceField(
+                    queryset=Formato.objects.all(),
+                    required=True, label='Formato',
+                )
+    
+    tema = forms.ModelChoiceField(
+                    queryset=Tema.objects.all(),
+                    required=True, label='Tema',
+                )
+    
+    tipo_organizacao = forms.ModelChoiceField(
+                    queryset=TipoOrganizacao.objects.all(),
+                    required=True, label='Tipo de Organização',
+                )
+    
     class Meta:
         model = Event
         fields = [
