@@ -3,7 +3,14 @@
 {% block content %}
 <h2>Todos os Eventos</h2>
 <section>
-    <p>Muitos resultados? <a href="{% url 'events:search' %}">Buscar Eventos</a></p>
+    <form action="{% url 'events:search' %}">
+        <p>
+            <label for="id_query">Título:</label>
+            <input type="text" name="query" id="id_query" />
+        </p>
+        <button type="submit">Buscar</button>
+    </form>
+    <!-- <p>Muitos resultados? <a href="{% url 'events:search' %}">Buscar Eventos</a></p> -->
     {% if perms.events.add_event %}
         <p>Não encontrou o evento? <a href="{% url 'events:create' %}">Adicionar Novo Evento</a></p>
     {% endif%}

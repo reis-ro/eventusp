@@ -7,10 +7,25 @@ Criar Usuário
 {% block content %}
 <h2>Criar Usuário Promotor</h2>
 
-<form method="post" enctype="multipart/form-data">
+<!-- <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Criar</button>
-</form>
+</form> -->
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+        <p>
+            {{ field.errors }}
+            {% if field.name == "termos_de_uso" %}
+                Li e concordo com os <a href="{% url 'password_reset' %}">Termos de Uso</a> {{ field }}
+            {% else %}
+                {{ field.label_tag }} {{ field }}
+            {% endif %}
+        </p>
+    {% endfor %}
+    <button type="submit">Criar</button>
+    </form>
 
 {% endblock content %} 

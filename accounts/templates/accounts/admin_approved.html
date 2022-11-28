@@ -26,6 +26,9 @@ Aprovação de Promotores
                         <a class="dropdown-item" href="#">Email: {{ promotor.user.email }}</a>
                         <a class="dropdown-item" href="#">CPF: {{ promotor.user.cpf }}</a>
                         <a class="dropdown-item" href="#">Organização: {{ promotor.organizacao }}</a>
+                        {% if promotor.profile_photo %}
+                        <img src={{promotor.profile_photo.url}} width=250 height=250 alt={{promotor}}>
+                        {% endif %}
                     </div>
                 </td>
                 <td> 

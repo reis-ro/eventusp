@@ -38,7 +38,7 @@ def signup_publico(request):
 
 def signup_promotor(request):
     if request.method == 'POST':
-        form = PromotorRegisterForm(request.POST)
+        form = PromotorRegisterForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()                                
             user_group = Group.objects.get(name='promotor') 
