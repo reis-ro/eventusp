@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Event, Review, Formato, Tema, TipoOrganizacao
+from .models import Event, Comment, Formato, Tema, TipoOrganizacao
 
 
 class EventForm(ModelForm):
@@ -46,17 +46,17 @@ class EventForm(ModelForm):
             'event_photo_url': 'Link da foto do evento',
         }
         widget = {
-            'date': forms.DateInput(format='%Y-%m-%d', attrs={'type': 'date',}),
-            'time': forms.TimeInput(format='%H:%M', attrs={'type': 'time',}),
-            'duration': forms.TimeInput(format='%H:%M', attrs={'type': 'time',}),
+            'date': forms.DateInput(format='%d-%m-%Y'),
+            'time': forms.TimeInput(format='%H:%M'),
+            'duration': forms.TimeInput(format='%H:%M'),
         }
 
-class ReviewForm(ModelForm):
+class CommentForm(ModelForm):
     class Meta:
-        model = Review
+        model = Comment
         fields = [
             'text',
         ]
         labels = {
-            'text': 'Resenha',
+            'text': 'Comentário',
         }

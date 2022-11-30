@@ -23,7 +23,7 @@ class Event(models.Model):
     name = models.CharField(max_length=50)
     date = models.DateField('data', null=True, blank=True)
     time = models.TimeField('tempo', null=True, blank=True)
-    duration = models.TimeField('tempo', null=True, blank=True)
+    duration = models.TimeField('duracao', null=True, blank=True)
     place = models.CharField(max_length=50)
     description = models.CharField(max_length=1500)
     summary = models.CharField(max_length=500)
@@ -51,7 +51,7 @@ class Event(models.Model):
         return f'{self.name} ({self.date})'
 
 
-class Review(models.Model):
+class Comment(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
                                on_delete=models.CASCADE)
     text = models.CharField(max_length=255)

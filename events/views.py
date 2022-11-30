@@ -6,10 +6,11 @@ from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
 
 from django.urls import reverse, reverse_lazy
-from .models import Event, Review, List
-from .forms import EventForm, ReviewForm
+from .models import Event, Comment, List
+from .forms import EventForm, CommentForm
 
 from django.views import generic
+import datetime
 
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -79,7 +80,7 @@ def update_event(request, event_id):
         if form.is_valid():
             event.name = form.cleaned_data['name']
             event.date = form.cleaned_data['date']
-            event.poster_url = form.cleaned_data['poster_url']
+            event.cover_photo_url = form.cleaned_data['cover_photo_url']
             event.save()
             return HttpResponseRedirect(
                 reverse('events:detail', args=(event.id, )))
@@ -93,7 +94,7 @@ def update_event(request, event_id):
                 'place': event.place,
                 'description': event.description,
                 'summary': event.summary,
-                'max_participants': event.max_paticipants,
+                'max_participants': event.max_participants,
                 'cover_photo_url': event.cover_photo_url,
                 'event_photo_url': event.event_photo_url
             })
@@ -112,23 +113,23 @@ def delete_event(request, event_id):
     context = {'event': event}
     return render(request, 'events/delete.html', context)
 
-def create_review(request, event_id):
+def create_comment(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     if request.method == 'POST':
-        form = ReviewForm(request.POST)
+        form = CommentForm(request.POST)
         if form.is_valid():
-            review_author = request.user
-            review_text = form.cleaned_data['text']
-            review = Review(author=review_author,
-                            text=review_text,
+            comment_author = request.user
+            comment_text = form.cleaned_data['text']
+            comment = Comment(author=comment_author,
+                            text=comment_text,
                             event=event)
-            review.save()
+            comment.save()
             return HttpResponseRedirect(
                 reverse('events:detail', args=(event_id, )))
     else:
-        form = ReviewForm()
+        form = CommentForm()
     context = {'form': form, 'event': event}
-    return render(request, 'events/review.html', context)
+    return render(request, 'events/comment.html', context)
 
 @user_passes_test(lambda u: u.is_superuser)
 def admin_approval(request):

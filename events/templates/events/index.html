@@ -3,6 +3,7 @@
 {% block content %}
 <h2>Todos os Eventos</h2>
 <section>
+    <li><a href="{% url 'events:create' %}">Criar novo evento</a></li>
     <p>Muitos resultados? <a href="{% url 'events:search' %}">Buscar Eventos</a></p>
     {% if perms.events.add_event %}
         <p>Não encontrou o evento? <a href="{% url 'events:create' %}">Adicionar Novo Evento</a></p>
