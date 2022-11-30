@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Resenhar Evento {{ event.name }} ({{ event.date }})</h2>
+<h2>Comentárior Evento {{ event.name }} ({{ event.date }})</h2>
 
-<form action="{% url 'events:review' event.id %}" method="post">
+<form action="{% url 'events:comment' event.id %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Postar Resenha</button>
+    <button type="submit">Postar Comentário</button>
 </form>
 
 <p><a href="{% url 'events:detail' event.id %}">Voltar para a página do evento</a></p>
