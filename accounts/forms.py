@@ -81,7 +81,7 @@ class PromotorRegisterForm(UserCreationForm):
                     label='Organização'
                 )
     
-    profile_photo = forms.ImageField(label='Foto de Perfil')
+    profile_photo = forms.ImageField(label='Foto de Perfil', required=False)
 
     class Meta:
         model = User
