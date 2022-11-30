@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from .models import Event, Comment, Formato, Tema, TipoOrganizacao
+from accounts.models import Promotor
 
 
 class EventForm(ModelForm):
@@ -18,6 +19,11 @@ class EventForm(ModelForm):
                     queryset=TipoOrganizacao.objects.all(),
                     required=True, label='Tipo de Organização',
                 )
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        self.promotor = Promotor.objects.filter(user=self.user)
+        super(EventForm, self).__init__(*args, **kwargs)
     
     class Meta:
         model = Event
@@ -50,6 +56,8 @@ class EventForm(ModelForm):
             'time': forms.TimeInput(format='%H:%M'),
             'duration': forms.TimeInput(format='%H:%M'),
         }
+
+        
 
 class CommentForm(ModelForm):
     class Meta:
