@@ -8,25 +8,39 @@ Listas
 <h2>Listas de Eventos</h2>
 
 <section>
-    {% for list in list_list %}
-    <hr>
+    {% if perms.events.add_event %}
     <article>
         <header>
-            <h3>{{list.name}} (de {{ list.author }}) </h3>
+            <h3> Meus Eventos</h3>
         </header>
         <div class="lista-de-cards">
-            {% for event in list.events.all %}
+            {% for event in event_list %}
             <div class="card">
                 <a href="{% url 'events:detail' event.id %}"><img src="{{ event.poster_url }}"
                         alt="Poster do evento {{ event.name}}"></a>
-                <p>{{ event.name }} ({{ event.dater }})</p>
+                <p>{{ event.name }} ({{ event.date }})</p>
             </div>
             {% endfor %}
         </div>
     </article>
-    {% endfor %}
-
-    <a href="{% url 'events:create-list' %}"><button>Crie sua Lista</button></a>
+    {% endif %}
+    
+    <header>
+        <h3> Meus Interesses</h3>
+    </header>
+    {% if favorite_events %}
+    <div class="lista-de-cards">
+        {% for event in favorite_events %}
+            <div class="card">
+                <a href="{% url 'events:detail' event.id %}"><img src="{{ event.poster_url }}"
+                        alt="Poster do evento {{ event.name}}"></a>
+                <p>{{ event.name }} ({{ event.date }})</p>
+            </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p> Adicione algum evento a seus interesses! </p>
+    {% endif %}
 </section>
 
 {% endblock content %}

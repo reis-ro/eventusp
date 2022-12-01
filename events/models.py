@@ -53,6 +53,8 @@ class Event(models.Model):
             on_delete=models.CASCADE,
         )
 
+    favorito = models.ManyToManyField(User, related_name='favorito', blank=True)
+
     def __str__(self):
         return f'{self.name} ({self.date})'
 

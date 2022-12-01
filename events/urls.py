@@ -11,8 +11,10 @@ urlpatterns = [
          name='detail'), 
     path('update/<int:event_id>/', views.update_event, name='update'),
     path('delete/<int:event_id>/', views.delete_event, name='delete'),
+    path('<int:event_id>/favorite_event', views.favorite_event, name='favorite_event'),
     path('<int:event_id>/comment/', views.create_comment, name='comment'),
-    path('lists/', views.ListListView.as_view(), name='lists'),
+    #path('lists/', views.ListListView.as_view(), name='lists'),
+    path('lists/', views.list_events, name='lists'),
     path('lists/create', views.ListCreateView.as_view(), name='create-list'),
     path('admin_approval', views.admin_approval, name='admin_approval'),
 ]

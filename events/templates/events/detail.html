@@ -57,6 +57,12 @@
     
 <hr>
 
+{% if is_favorite %}
+<a href="{% url 'events:favorite_event' event.id %}"><button>Remover dos Interesses</button></a>
+{% else %}
+<a href="{% url 'events:favorite_event' event.id %}"><button>Adicionar aos Interesses</button></a>
+{% endif %}
+
 <a href="{% url 'events:comment' event.pk %}"><button>Crie seu Comentário</button></a>
 </section>
 

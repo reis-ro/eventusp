@@ -33,6 +33,15 @@ class ListListView(LoginRequiredMixin,generic.ListView):
     model = List
     template_name = 'events/lists.html'
 
+@login_required
+def list_events(request):
+    event_list = Event.objects.filter(promotor=request.user.id)
+
+    favorite_events = request.user.favorito.all()
+
+    context = {'event_list': event_list, 'favorite_events': favorite_events}
+    return render(request, 'events/lists.html', context)
+
 class ListCreateView(LoginRequiredMixin, PermissionRequiredMixin, 
                         generic.CreateView):
     model = List
@@ -43,13 +52,31 @@ class ListCreateView(LoginRequiredMixin, PermissionRequiredMixin,
 @login_required
 def detail_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
+
+    is_favorite = False
+    if event.favorito.filter(id=request.user.id).exists():
+        is_favorite = True
+
     if 'last_viewed' not in request.session:
         request.session['last_viewed'] = []
     request.session['last_viewed'] = [event_id] + request.session['last_viewed']
     if len(request.session['last_viewed']) > 5:
         request.session['last_viewed'] = request.session['last_viewed'][:-1]
-    context = {'event': event}
+    context = {'event': event, 'is_favorite': is_favorite}
+
     return render(request, 'events/detail.html', context)
+
+@login_required
+def favorite_event(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+
+    if event.favorito.filter(id=request.user.id).exists():
+        event.favorito.remove(request.user)
+
+    else:
+        event.favorito.add(request.user)
+
+    return HttpResponseRedirect(reverse('events:detail', args=(event.pk, )))
 
 @login_required
 def search_events(request):
