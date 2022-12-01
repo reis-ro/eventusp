@@ -61,7 +61,7 @@ def search_events(request):
 @permission_required('events.add_event')
 def create_event(request):
     if request.method == 'POST':
-        event_form = EventForm(request.POST, request.FILES)
+        event_form = EventForm(request.POST, request.FILES, user=request.user)
         if event_form.is_valid():
             event = Event(**event_form.cleaned_data)
             event.save()
