@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Atualizar Dados do Evento {{ event.name }}({{ event.date}})</h2>
-<form method="POST" action="{% url 'events:update' event.id%}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Atualizar</button>
-</form>
+{% if user == event.promotor.user %}
+    <h2>Atualizar Dados do Evento {{ event.name }}({{ event.date}})</h2>
+    <form method="POST" action="{% url 'events:update' event.id%}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Atualizar</button>
+    </form>
 
+{% else %}
+    <h2>Você não tem permissão para editar este evento!</h2>
+{% endif %}
 {% endblock content %}

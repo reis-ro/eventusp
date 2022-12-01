@@ -19,11 +19,6 @@ class EventForm(ModelForm):
                     queryset=TipoOrganizacao.objects.all(),
                     required=True, label='Tipo de Organização',
                 )
-
-    def __init__(self, user, *args, **kwargs):
-        self.user = user
-        self.promotor = Promotor.objects.filter(user=self.user)
-        super(EventForm, self).__init__(*args, **kwargs)
     
     class Meta:
         model = Event

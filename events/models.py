@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from accounts.models import Promotor
+from accounts.models import Promotor, User
 
 class Formato(models.Model):
     formato = models.CharField(max_length=60)
@@ -51,7 +51,6 @@ class Event(models.Model):
     promotor = models.OneToOneField(
             Promotor,
             on_delete=models.CASCADE,
-            primary_key=True,
         )
 
     def __str__(self):

@@ -12,8 +12,8 @@
     </form>
     <!-- <p>Muitos resultados? <a href="{% url 'events:search' %}">Buscar Eventos</a></p> -->
     {% if perms.events.add_event %}
-        <p>Não encontrou o evento? <a href="{% url 'events:create' %}">Adicionar Novo Evento</a></p>
-    {% endif%}
+        <p><a href="{% url 'events:create' %}">Adicionar Novo Evento</a></p>
+    {% endif %}
 </section>
 {% if event_list %}
 <section class="lista-de-cards">

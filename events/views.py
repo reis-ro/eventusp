@@ -7,6 +7,7 @@ from django.shortcuts import render, get_object_or_404
 
 from django.urls import reverse, reverse_lazy
 from .models import Event, Comment, List
+from accounts.models import Promotor
 from .forms import EventForm, CommentForm
 
 from django.views import generic
@@ -15,7 +16,7 @@ import datetime
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
-class EventListView(generic.ListView):
+class EventListView(LoginRequiredMixin, generic.ListView):
     model = Event
     template_name = 'events/index.html'
 
@@ -28,7 +29,7 @@ class EventListView(generic.ListView):
                     get_object_or_404(Event, pk=event_id))
         return context
 
-class ListListView(generic.ListView):
+class ListListView(LoginRequiredMixin,generic.ListView):
     model = List
     template_name = 'events/lists.html'
 
@@ -39,6 +40,7 @@ class ListCreateView(LoginRequiredMixin, PermissionRequiredMixin,
     fields = ['name', 'date', 'events']
     success_url = reverse_lazy('events:lists')
 
+@login_required
 def detail_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     if 'last_viewed' not in request.session:
@@ -49,6 +51,7 @@ def detail_event(request, event_id):
     context = {'event': event}
     return render(request, 'events/detail.html', context)
 
+@login_required
 def search_events(request):
     context = {}
     if request.GET.get('query', False):
@@ -61,9 +64,10 @@ def search_events(request):
 @permission_required('events.add_event')
 def create_event(request):
     if request.method == 'POST':
-        event_form = EventForm(request.POST, request.FILES, user=request.user)
+        event_form = EventForm(request.POST, request.FILES)
         if event_form.is_valid():
             event = Event(**event_form.cleaned_data)
+            event.promotor = Promotor.objects.get(pk=request.user.id)
             event.save()
             return HttpResponseRedirect(
                 reverse('events:detail', args=(event.pk, )))
@@ -72,6 +76,7 @@ def create_event(request):
     context = {'event_form': event_form}
     return render(request, 'events/create.html', context)
 
+@login_required
 def update_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
 
@@ -102,7 +107,7 @@ def update_event(request, event_id):
     context = {'event': event, 'form': form}
     return render(request, 'events/update.html', context)
 
-
+@login_required
 def delete_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
 
@@ -113,6 +118,7 @@ def delete_event(request, event_id):
     context = {'event': event}
     return render(request, 'events/delete.html', context)
 
+@login_required
 def create_comment(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     if request.method == 'POST':

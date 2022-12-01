@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form action="{% url 'events:delete' event.id %}" method="post">
-    {% csrf_token %}
-    <p>
-        Você tem certeza que deseja apagar o evento "{{ event.name }} ({{ event.date }})"?
-    </p>
-    <button type="submit">Apagar</button>
-</form>
+{% if user == event.promotor.user %}
+    <form action="{% url 'events:delete' event.id %}" method="post">
+        {% csrf_token %}
+        <p>
+            Você tem certeza que deseja apagar o evento "{{ event.name }} ({{ event.date }})"?
+        </p>
+        <button type="submit">Apagar</button>
+    </form>
+{% else %}
+    <h2>Você não tem permissão para deletar este evento!</h2>
+{% endif %}
 
 {% endblock content %}

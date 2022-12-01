@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Comentárior Evento {{ event.name }} ({{ event.date }})</h2>
+<h2>Comentário Evento {{ event.name }} ({{ event.date }})</h2>
 
 <form action="{% url 'events:comment' event.id %}" method="post">
     {% csrf_token %}
