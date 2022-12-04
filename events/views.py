@@ -112,7 +112,13 @@ def update_event(request, event_id):
         if form.is_valid():
             event.name = form.cleaned_data['name']
             event.date = form.cleaned_data['date']
-            event.cover_photo_url = form.cleaned_data['cover_photo_url']
+            event.time = form.cleaned_data['time']
+            event.duration = form.cleaned_data['duration']
+            event.place = form.cleaned_data['place']
+            event.description = form.cleaned_data['description']
+            event.summary = form.cleaned_data['summary']
+            event.max_participants = form.cleaned_data['max_participants']
+            event.event_photo_url = form.cleaned_data['event_photo_url']
             event.save()
             return HttpResponseRedirect(
                 reverse('events:detail', args=(event.id, )))
@@ -127,7 +133,6 @@ def update_event(request, event_id):
                 'description': event.description,
                 'summary': event.summary,
                 'max_participants': event.max_participants,
-                'cover_photo_url': event.cover_photo_url,
                 'event_photo_url': event.event_photo_url
             })
 

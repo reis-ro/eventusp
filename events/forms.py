@@ -31,7 +31,6 @@ class EventForm(ModelForm):
             'description',
             'summary', 
             'max_participants',
-            'cover_photo_url',
             'event_photo_url',
         ]
         labels = {
@@ -43,7 +42,6 @@ class EventForm(ModelForm):
             'description': 'Descrição do evento',
             'summary': 'Resumo do evento', 
             'max_participants': 'Número máximo de participantes',
-            'cover_photo_url': 'Link da foto de capa',
             'event_photo_url': 'Link da foto do evento',
         }
         widget = {
