@@ -14,13 +14,17 @@ Listas
             <h3> Meus Eventos</h3>
         </header>
         <div class="lista-de-cards">
-            {% for event in event_list %}
-            <div class="card">
-                <a href="{% url 'events:detail' event.id %}"><img src="{{ event.event_photo_url }}"
-                        alt="Poster do evento {{ event.name}}"></a>
-                <p>{{ event.name }} ({{ event.date }})</p>
-            </div>
-            {% endfor %}
+            {% if event_list %}
+                {% for event in event_list %}
+                <div class="card">
+                    <a href="{% url 'events:detail' event.id %}"><img src="{{ event.event_photo_url }}"
+                            alt="Poster do evento {{ event.name}}"></a>
+                    <p>{{ event.name }} ({{ event.date }})</p>
+                </div>
+                {% endfor %}
+            {% else %}
+            <p>Sem eventos? <a href="{% url 'events:create' %}">Adicionar Novo Evento</a></p>
+            {% endif %}
         </div>
     </article>
     {% endif %}
