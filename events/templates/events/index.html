@@ -37,7 +37,7 @@
 <section class="lista-de-cards">
     {% for last_event in last_events %}
     <article class="small-card">
-        <a href="{% url 'events:detail' last_event.id %}"><img src="{{ last_event.poster_url }}"
+        <a href="{% url 'events:detail' last_event.id %}"><img src="{{ last_event.event_photo_url }}"
                 alt="Poster do evento {{ last_event.name}}"></a>
     </article>
     {% endfor %}
