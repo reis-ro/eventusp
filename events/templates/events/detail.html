@@ -5,54 +5,59 @@
 {% endblock title %}
 
 {% block content %}
-<h2>Detalhes do Evento {{ event.name }}</h2>
+<!--<h3 style="text-align:center">{{ event.name }}</h3-->
 
 <section class="dados-de-evento">
-    <img src="{{ event.cover_photo_url }}" alt="Poster do evento {{ event.name}}">
+    <img src="{{ event.event_photo_url }}" alt="Imagem do evento {{ event.name }}">
     <ul>
-        <li>Nome: {{ event.name }}</li>
-        <li>Data: {{ event.date }} </li>
-        <li>Data: {{ event.time }} </li>
-        <li>Data: {{ event.duration }} </li>
-        <li>Data: {{ event.place }} </li>
-        <li>Data: {{ event.description }} </li>
-        <li>Data: {{ event.summary }} </li>
-        <li>Data: {{ event.max_participants }} </li>
-        
-        {% if event.provider %}
-            <li>Disponibilidade de Streaming: {{ event.provider.service }} </li>
-            {% if event.provider.has_flat_price %}
-                <li>Preço: FLAT </li>
-            {% else %}
-                <li>Preço: R${{ event.provider.price }} </li>
-            {% endif %}
-        {% endif %}
-        {% if event.list_set.all %}
-           <li>Incluso nas listas: {{ event.list_set.all|join:", " }} </li>
-        {% endif %}
-        <li><a href="{% url 'events:update' event.id %}">Editar</a></li>
-        <li><a href="{% url 'events:delete' event.id %}">Apagar</a></li>
+        <h2 style="text-align:center">{{ event.name }}</h2>
+        <li><b>Data:</b> {{ event.date|date:"d/m/Y" }} </li>
+        <li><b>Horário:</b> {{ event.time|date:"H:i" }} </li>
+        <li><b>Duração:</b> {{ event.duration|date:"H:i" }} </li>
+        <li><b>Local:</b> {{ event.place }} </li>
+        <li><b>Descrição:</b> {{ event.description }} </li>
+        <li><b>Resumo:</b> {{ event.summary }} </li>
+        <li><b>Lotação: </b>{{ event.max_participants }} </li>
+
+        <li><b>Formato:</b> {{ event.formato }} </li>
+        <li><b>Tema:</b> {{ event.tema }} </li>
+        <li><b>Tipo de Organização:</b> {{ event.tipo_organizacao }} </li>
     </ul>
+    
+    <det>
+        {% if user == event.promotor.user %}
+            <p style="text-align:center"><a href="{% url 'events:update' event.id %}"><button>Editar</button></a>
+                <a href="{% url 'events:delete' event.id %}"><button>Apagar</button></a></p>
+        {% endif %}
+
+        {% if is_favorite %}
+            <p style="text-align:center"><a href="{% url 'events:favorite_event' event.id %}"><button>Remover dos Interesses</button></a></p>
+        {% else %}
+            <p style="text-align:center"><a href="{% url 'events:favorite_event' event.id %}"><button>Adicionar aos Interesses</button></a></p>
+        {% endif %}
+
+    </det>
+
 </section>
 
 <hr>
 
 <section>
     <header>
-        <h3>Resenhas</h3>
+        <h3 style="text-align:center">Comentários</h3>
     </header>
     <ul>
-        {% if event.review_set.all %}
-            {% for review in event.review_set.all %}
+        {% if event.comment_set.all %}
+            {% for comment in event.comment_set.all %}
                 <figure>
                     <blockquote>
-                        "{{ review.text }}"
+                        "{{ comment.text }}"
                     </blockquote>
-                    <figcaption>—{{ review.author }}
+                    <figcaption>—{{ comment.author.first_name }} {{ comment.author.last_name }}
                 </figure>
             {% endfor %}
         {% else %}
-            <p>Ainda não existe nenhuma resenha para este evento.</p>
+            <p style="text-align:center">Ainda não existe nenhum comentário para este evento.</p>
         {% endif %}
     </ul>
 </section>
@@ -61,7 +66,7 @@
     
 <hr>
 
-<a href="{% url 'events:review' event.pk %}"><button>Crie sua Resenha</button></a>
+<p style="text-align:center"><a href="{% url 'events:comment' event.pk %}"><button>Crie seu Comentário</button></a></p>
 </section>
 
 {% endblock content %}

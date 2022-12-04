@@ -15,12 +15,10 @@ class PublicoRegisterForm(UserCreationForm):
 
     unidade = forms.ModelChoiceField(
                     queryset=Unidade.objects.all(),
-                    required=True
+                    required=True,
             )
-#mark_safe('Li e concordo com os <a href="//www.blogger.com/questions/whyname/" "termos de uso"></a>)')
-    # terms_and_conditions = reverse_lazy("login")
-    termos_de_uso = forms.BooleanField()
-    #termos_de_uso = forms.BooleanField(label = "Privacy <a href='%s' a>policy</a>" % reverse('termos_de_uso'))
+    
+    termos_de_uso = forms.BooleanField(label='Termos de Uso')
 
     class Meta:
         model = User
@@ -51,6 +49,14 @@ class PublicoRegisterForm(UserCreationForm):
             raise ValidationError("CPF Inválido!")
 
         return cpf
+    
+    def clean_termos_de_uso(self):
+        termos = self.cleaned_data.get('termos_de_uso')
+
+        if not termos:
+            raise ValidationError("Você precisa concordar com os termos de uso para continuar!!")
+        
+        return termos
 
 
     @transaction.atomic
@@ -81,11 +87,22 @@ class PromotorRegisterForm(UserCreationForm):
                     label='Organização'
                 )
     
-    profile_photo = forms.ImageField(label='Foto de Perfil')
+    profile_photo = forms.ImageField(label='Foto de Perfil', required=False)
+
+    termos_de_uso = forms.BooleanField(label='Termos de Uso')
 
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email', 'cpf', 'password1', 'password2']
+
+    def clean_termos_de_uso(self):
+        termos = self.cleaned_data.get('termos_de_uso')
+
+        if not termos:
+            raise ValidationError("Você precisa concordar com os termos de uso para continuar!!")
+        
+        return termos
+            
 
     def clean_cpf(self):
 
@@ -125,7 +142,8 @@ class PromotorRegisterForm(UserCreationForm):
         user.save()
 
         promotor = Promotor.objects.create(user=user, 
-                                organizacao=self.cleaned_data.get('organizacao'))
+                                organizacao=self.cleaned_data.get('organizacao'),
+                                profile_photo=self.cleaned_data['profile_photo'])
 
         promotor.save()
 

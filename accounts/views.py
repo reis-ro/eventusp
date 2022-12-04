@@ -38,10 +38,10 @@ def signup_publico(request):
 
 def signup_promotor(request):
     if request.method == 'POST':
-        form = PromotorRegisterForm(request.POST)
+        form = PromotorRegisterForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()                                
-            user_group = Group.objects.get(name='promotor') 
+            user_group = Group.objects.get(name='promotor_pendente') 
             user.groups.add(user_group)                       
 
             return HttpResponseRedirect(reverse('login'))
@@ -76,7 +76,7 @@ def password_reset_request(request):
 					}
 					email = render_to_string(email_template_name, c)
 					try:
-						send_mail(subject, email, 'reis.reisrodrigo@usp.br' , [user.email], fail_silently=False)
+						send_mail(subject, email, 'eventusp3304@gmail.com' , [user.email], fail_silently=False)
 					except BadHeaderError:
 						return HttpResponse('Invalid header found.')
 					return redirect("password_reset/done/")
@@ -90,10 +90,17 @@ def admin_approved(request):
     if request.method == "POST":
         id_list = request.POST.getlist('boxes')
 
+        for promotor in promotor_list:
+            x = promotor.pk
+            User.objects.get(pk=int(x)).groups.add(Group.objects.get(name='promotor_pendente'))  
+            User.objects.get(pk=int(x)).groups.remove(Group.objects.get(name='promotor')) 
+
         promotor_list.update(approved=False)
 
         for x in id_list:
-            Promotor.objects.filter(pk=int(x)).update(approved=True)
+            Promotor.objects.filter(pk=int(x)).update(approved=True)                        
+            User.objects.get(pk=int(x)).groups.add(Group.objects.get(name='promotor'))  
+            User.objects.get(pk=int(x)).groups.remove(Group.objects.get(name='promotor_pendente'))  
             
         return HttpResponseRedirect(reverse('admin_approved'))
     
@@ -109,7 +116,9 @@ def admin_approval(request):
         promotor_list.update(approved=False)
 
         for x in id_list:
-            Promotor.objects.filter(pk=int(x)).update(approved=True)
+            Promotor.objects.filter(pk=int(x)).update(approved=True)                        
+            User.objects.get(pk=int(x)).groups.add(Group.objects.get(name='promotor'))  
+            User.objects.get(pk=int(x)).groups.remove(Group.objects.get(name='promotor_pendente'))  
             #print(Promotor.objects.filter(pk=int(x)))
             
         return HttpResponseRedirect(reverse('admin_approval'))

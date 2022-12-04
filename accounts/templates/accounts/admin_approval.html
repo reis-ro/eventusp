@@ -5,7 +5,7 @@ Aprovação de Promotores
 {% endblock title %}
 
 {% block content %}
-<h1>Portal de Aprovação de Promotores Pendentes</h1>
+<h3 style="text-align:center">Portal de Aprovação de Promotores Pendentes</h3>
 
 <form action="" method=POST>
     {% csrf_token %}
@@ -22,10 +22,13 @@ Aprovação de Promotores
             <tr>
                 <td> 
                     <div class="dropdown">
-                        <h6 class="dropdown-header">{{ promotor }}</h6>
-                        <a class="dropdown-item" href="#">Email: {{ promotor.user.email }}</a>
-                        <a class="dropdown-item" href="#">CPF: {{ promotor.user.cpf }}</a>
-                        <a class="dropdown-item" href="#">Organização: {{ promotor.organizacao }}</a>
+                        <h4 style="color:#541FC4" class="dropdown-header">{{ promotor }}</h4>
+                        <p class="dropdown-item" href="#">Email: {{ promotor.user.email }}</p>
+                        <p class="dropdown-item" href="#">CPF: {{ promotor.user.cpf }}</p>
+                        <p class="dropdown-item" href="#">Organização: {{ promotor.organizacao }}</p>
+                        {% if promotor.profile_photo %}
+                        <img src={{promotor.profile_photo.url}} width=200 height=auto alt={{promotor}}>
+                        {% endif %}
                     </div>
                 </td>
                 <td> 
@@ -40,7 +43,8 @@ Aprovação de Promotores
 </table>
 <br>
 
-<button class="btn btn-secondary" type="submit">Atualizar Aprovações</button>
+<button style="margin-left: 40%" class="btn btn-secondary" type="submit">Atualizar Aprovações</button>
+<p style="padding-top: 15px; text-align:center"><b><a href="{% url 'approvals' %}">Voltar</a></b></p>
 
 </form>
 

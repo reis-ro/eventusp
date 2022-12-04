@@ -5,7 +5,7 @@ Aprovação de Eventos
 {% endblock title %}
 
 {% block content %}
-<h1>Portal de Aprovação de Eventos</h1>
+<h3 style="text-align:center">Portal de Aprovação de Eventos</h3>
 
 <form action="" method=POST>
     {% csrf_token %}
@@ -41,7 +41,8 @@ Aprovação de Eventos
 </table>
 <br>
 
-<button class="btn btn-secondary" type="submit">Atualizar Aprovações</button>
+<button style="margin-left: 40%" class="btn btn-secondary" type="submit">Atualizar Aprovações</button>
+<p style="padding-top: 15px; text-align:center"><b><a href="{% url 'approvals' %}">Voltar</a></b></p>
 
 </form>
 

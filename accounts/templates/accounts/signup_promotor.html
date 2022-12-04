@@ -1,16 +1,32 @@
-{% extends 'base.html' %}
+{% extends 'base_notlogged.html' %}
 
 {% block title %}
 Criar Usuário
 {% endblock title %}
 
 {% block content %}
-<h2>Criar Usuário Promotor</h2>
+<h2 style="text-align:center">Criar Usuário Promotor</h2>
 
-<form method="post" enctype="multipart/form-data">
+<!-- <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Criar</button>
-</form>
+</form> -->
 
+<form style="margin-left:24%" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+        <p>
+            {{ field.errors }}
+            {% if field.name == "termos_de_uso" %}
+                Li e concordo com os <a href="{% url 'termos_promotor' %}">Termos de Uso</a> {{ field }}
+            {% else %}
+                {{ field.label_tag }} {{ field }}
+            {% endif %}
+        </p>
+    {% endfor %}
+    <button style="margin-left:28%" type="submit">Criar</button>
+    </form>
+
+    <p style="text-align:center"><a href="{% url 'index' %}">Voltar para página inicial</a></p>
 {% endblock content %} 

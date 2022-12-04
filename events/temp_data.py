@@ -18,8 +18,6 @@ event_data = [
     "Transmissão do primeiro jogo do Brasil na Copa",
     "max_participants":
     "100", 
-    "cover_photo_url":
-    "https://image.tmdb.org/t/p/w500/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg",
     "event_photo_url":
     "https://image.tmdb.org/t/p/w500/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg",
 }

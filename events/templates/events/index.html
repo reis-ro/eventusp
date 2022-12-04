@@ -1,13 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Todos os Eventos</h2>
-<section>
-    <p>Muitos resultados? <a href="{% url 'events:search' %}">Buscar Eventos</a></p>
+<section class="busca">
+    <form style="margin-left:24%" action="{% url 'events:search' %}">
+        <p>
+            <label for="id_query">Título:</label>
+            <input type="text" name="query" id="id_query" />
+        </p>
+        <button style="margin-left: 26%" type="submit">Buscar</button>
+    </form>
+    <!-- <p>Muitos resultados? <a href="{% url 'events:search' %}">Buscar Eventos</a></p> -->
     {% if perms.events.add_event %}
-        <p>Não encontrou o evento? <a href="{% url 'events:create' %}">Adicionar Novo Evento</a></p>
-    {% endif%}
+        <h4 style="text-align:center"><b><a href="{% url 'events:create' %}">Adicionar Novo Evento</a></b></h4>
+    {% endif %}
+
+<hr>
+
 </section>
+
+<h2 style="text-align:center">Todos os Eventos</h2>
+
 {% if event_list %}
 <section class="lista-de-cards">
     {% for event in event_list %}
@@ -15,7 +27,8 @@
             <article class="card">
                 <a href="{% url 'events:detail' event.id %}"><img src="{{ event.event_photo_url }}"
                         alt="Poster do evento {{ event.name}}"></a> <!-- modifique esta linha -->
-                <p>{{ event.name }} ({{ event.date }})</p>
+                <h4 style="color:white; text-align:center">{{ event.name }}</h4>
+                <p style="color:white; text-align:center">({{ event.date }})</p>
             </article>
         {% endif %}
     {% endfor %}
@@ -26,11 +39,11 @@
 
 {% if last_events %}
 <hr>
-<h2>Últimos vistos</h2>
+<h3 style="text-align:center">Últimos vistos</h3>
 <section class="lista-de-cards">
     {% for last_event in last_events %}
     <article class="small-card">
-        <a href="{% url 'events:detail' last_event.id %}"><img src="{{ last_event.poster_url }}"
+        <a href="{% url 'events:detail' last_event.id %}"><img src="{{ last_event.event_photo_url }}"
                 alt="Poster do evento {{ last_event.name}}"></a>
     </article>
     {% endfor %}

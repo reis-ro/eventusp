@@ -6,15 +6,17 @@ from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
 
 from django.urls import reverse, reverse_lazy
-from .models import Event, Review, List
-from .forms import EventForm, ReviewForm
+from .models import Event, Comment, List
+from accounts.models import Promotor
+from .forms import EventForm, CommentForm
 
 from django.views import generic
+import datetime
 
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
-class EventListView(generic.ListView):
+class EventListView(LoginRequiredMixin, generic.ListView):
     model = Event
     template_name = 'events/index.html'
 
@@ -27,9 +29,18 @@ class EventListView(generic.ListView):
                     get_object_or_404(Event, pk=event_id))
         return context
 
-class ListListView(generic.ListView):
+class ListListView(LoginRequiredMixin,generic.ListView):
     model = List
     template_name = 'events/lists.html'
+
+@login_required
+def list_events(request):
+    event_list = Event.objects.filter(promotor=request.user.id)
+
+    favorite_events = request.user.favorito.all()
+
+    context = {'event_list': event_list, 'favorite_events': favorite_events}
+    return render(request, 'events/lists.html', context)
 
 class ListCreateView(LoginRequiredMixin, PermissionRequiredMixin, 
                         generic.CreateView):
@@ -38,16 +49,36 @@ class ListCreateView(LoginRequiredMixin, PermissionRequiredMixin,
     fields = ['name', 'date', 'events']
     success_url = reverse_lazy('events:lists')
 
+@login_required
 def detail_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
+
+    is_favorite = False
+    if event.favorito.filter(id=request.user.id).exists():
+        is_favorite = True
+
     if 'last_viewed' not in request.session:
         request.session['last_viewed'] = []
     request.session['last_viewed'] = [event_id] + request.session['last_viewed']
     if len(request.session['last_viewed']) > 5:
         request.session['last_viewed'] = request.session['last_viewed'][:-1]
-    context = {'event': event}
+    context = {'event': event, 'is_favorite': is_favorite}
+
     return render(request, 'events/detail.html', context)
 
+@login_required
+def favorite_event(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+
+    if event.favorito.filter(id=request.user.id).exists():
+        event.favorito.remove(request.user)
+
+    else:
+        event.favorito.add(request.user)
+
+    return HttpResponseRedirect(reverse('events:detail', args=(event.pk, )))
+
+@login_required
 def search_events(request):
     context = {}
     if request.GET.get('query', False):
@@ -63,6 +94,7 @@ def create_event(request):
         event_form = EventForm(request.POST, request.FILES)
         if event_form.is_valid():
             event = Event(**event_form.cleaned_data)
+            event.promotor = Promotor.objects.get(pk=request.user.id)
             event.save()
             return HttpResponseRedirect(
                 reverse('events:detail', args=(event.pk, )))
@@ -71,6 +103,7 @@ def create_event(request):
     context = {'event_form': event_form}
     return render(request, 'events/create.html', context)
 
+@login_required
 def update_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
 
@@ -79,7 +112,13 @@ def update_event(request, event_id):
         if form.is_valid():
             event.name = form.cleaned_data['name']
             event.date = form.cleaned_data['date']
-            event.poster_url = form.cleaned_data['poster_url']
+            event.time = form.cleaned_data['time']
+            event.duration = form.cleaned_data['duration']
+            event.place = form.cleaned_data['place']
+            event.description = form.cleaned_data['description']
+            event.summary = form.cleaned_data['summary']
+            event.max_participants = form.cleaned_data['max_participants']
+            event.event_photo_url = form.cleaned_data['event_photo_url']
             event.save()
             return HttpResponseRedirect(
                 reverse('events:detail', args=(event.id, )))
@@ -93,15 +132,14 @@ def update_event(request, event_id):
                 'place': event.place,
                 'description': event.description,
                 'summary': event.summary,
-                'max_participants': event.max_paticipants,
-                'cover_photo_url': event.cover_photo_url,
+                'max_participants': event.max_participants,
                 'event_photo_url': event.event_photo_url
             })
 
     context = {'event': event, 'form': form}
     return render(request, 'events/update.html', context)
 
-
+@login_required
 def delete_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
 
@@ -112,23 +150,24 @@ def delete_event(request, event_id):
     context = {'event': event}
     return render(request, 'events/delete.html', context)
 
-def create_review(request, event_id):
+@login_required
+def create_comment(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     if request.method == 'POST':
-        form = ReviewForm(request.POST)
+        form = CommentForm(request.POST)
         if form.is_valid():
-            review_author = request.user
-            review_text = form.cleaned_data['text']
-            review = Review(author=review_author,
-                            text=review_text,
+            comment_author = request.user
+            comment_text = form.cleaned_data['text']
+            comment = Comment(author=comment_author,
+                            text=comment_text,
                             event=event)
-            review.save()
+            comment.save()
             return HttpResponseRedirect(
                 reverse('events:detail', args=(event_id, )))
     else:
-        form = ReviewForm()
+        form = CommentForm()
     context = {'form': form, 'event': event}
-    return render(request, 'events/review.html', context)
+    return render(request, 'events/comment.html', context)
 
 @user_passes_test(lambda u: u.is_superuser)
 def admin_approval(request):
