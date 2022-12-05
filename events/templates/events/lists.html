@@ -9,27 +9,17 @@ Listas
 
 <section>
     {% if perms.events.add_event and not user.is_superuser %}
-    {% if perms.events.add_event and not user.is_superuser %}
     <article>
         <header>
             <h3 style="text-align:center"> Meus Eventos</h3>
         </header>
         <div class="lista-de-cards">
             {% if event_list %}
-                {% if event_list %}
-                {% for event in event_event_list %}
+                {% for event in event_list %}
                 <div class="card">
-                    <a href="{% url 'events:detail' event %}
-                <div class="card">
-                    <a href="{% url 'events:detail' event.id %}"><img src="{{ id %}"><img src="{{ event.event_photo_url }}"
-                            alt="Po.event_photo_url }}"
-                            alt="Poster do evento {{ eventter do evento {{ event.nname}}"></a>
-                <h4 styme}}"></a>
-                    <p>{{ event.name }} ({{ event.date }})</p>
-                </div>
-                {% endfor %}
-            {% ele="cose %}
-            <p>Sem eventos? <a href="{% urlor:white; text-align:center">{{ event.name }}</h4>
+                    <a href="{% url 'events:detail' event.id %}"><img src="{{ event.event_photo_url }}"
+                            alt="Poster do evento {{ event.name}}"></a>
+                <h4 style="color:white; text-align:center">{{ event.name }}</h4>
                 <p style="color:white; text-align:center">({{ event.date }})</p>
                 </div>
                 {% endfor %}
@@ -44,17 +34,6 @@ Listas
 
     <header>
         <h3 style="text-align:center"> Meus Interesses</h3>
-    </header>
-    {% if favorite_events %}
-    <div class="lista-de-cards">
-        {% for event in favorite_events 'events:create' %}">Adicionar Novo Evento</a></p>
-            {% endif %}
-        </div>
-    </article>
-    {% endif %}
-    
-    <header>
-        <h3> Meus Interesses</h3>
     </header>
     {% if favorite_events %}
     <div class="lista-de-cards">
