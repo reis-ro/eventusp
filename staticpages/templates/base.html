@@ -20,12 +20,14 @@
 
 <body>
     <header id="cabecalho-principal">
-        <a href="{% url 'index_log' %}"> <img src="{% static 'logo.svg' %}"> </a> <!-- adicione esta linha -->
+        <a href="{% url 'index' %}"> <img src="{% static 'logo.svg' %}"> </a>
         <nav id="navegacao-principal">
             <ul>
                 {% if user.is_authenticated %}
                     <li> Logado com {{ user.first_name }} {{ user.last_name }} </li>
                     <li><a href="{% url 'logout' %}">Log out</a></li>
+                    <li><a href="{% url 'events:index' %}">Eventos</a></li>
+                    <li><a href="{% url 'events:lists' %}">Listas</a></li>
 
                         {% if user.is_superuser %}
                             <li><a href="{% url 'approvals' %}">Admin</a></li>
@@ -33,9 +35,9 @@
 
                 {% else %}
                     <li><a href="{% url 'login' %}">Log in</a></li>
+                    
                 {% endif %}
-                <li><a href="{% url 'events:index' %}">Eventos</a></li>
-                <li><a href="{% url 'events:lists' %}">Listas</a></li>
+                
                 <li><a href="{% url 'about' %}">Sobre</a></li>
             </ul>
         </nav>

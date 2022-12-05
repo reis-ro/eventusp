@@ -12,6 +12,7 @@ from .forms import EventForm, CommentForm
 
 from django.views import generic
 import datetime
+from django.db.models import Count
 
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -27,6 +28,7 @@ class EventListView(LoginRequiredMixin, generic.ListView):
             for event_id in self.request.session['last_viewed']:
                 context['last_events'].append(
                     get_object_or_404(Event, pk=event_id))
+
         return context
 
 class ListListView(LoginRequiredMixin,generic.ListView):
