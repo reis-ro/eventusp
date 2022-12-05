@@ -5,7 +5,7 @@ Login
 {% endblock title %}
 
 {% block content %}
-<h1>Login de Usuário</h1>
+<h2 style="text-align:center">Login de Usuário</h2>
 
 {% if form.errors %}
 <p>Sua senha e nome de usuário não correspondem. Tente novamente.</p>
@@ -19,14 +19,18 @@ Login
 {% endif %}
 {% endif %}
 
-<form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    {{ form.as_p}}
-    <button type="submit" value="login">Entrar</button>
-    <input type="hidden" name="next" value="{{ next }}">
-</form>
+<div class="caixa">
+    <form style="padding: 5px" method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        {{ form.as_p}}
+        <button style="margin-left: 40%" type="submit" value="login">Entrar</button>
+        <input type="hidden" name="next" value="{{ next }}">
+    </form>
+</div>
 
-<p>Não possui usuário? <a href="{% url 'signup' %}">Cadastre-se</a></p>
+<p style="padding-top: 15px; text-align:center"><b><a href="{% url 'reset/password_reset' %}">Esqueci minha senha</a></b></p>
+
+<p style="padding-top: 15px">Não possui usuário? <a href="{% url 'signup' %}">Cadastre-se</a></p>
 <p>É promotor de eventos? <a href="{% url 'signup_promotor' %}">Clique aqui</a></p>
 <p><a href="{% url 'reset/password_reset' %}">Esqueci minha senha</a></p>
 {% endblock %}

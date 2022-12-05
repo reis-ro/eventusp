@@ -5,29 +5,39 @@
 {% endblock title %}
 
 {% block content %}
-<h2>{{ event.name }}</h2>
+<!--<h3 style="text-align:center">{{ event.name }}</h3-->
 
 <section class="dados-de-evento">
     <img src="{{ event.event_photo_url }}" alt="Imagem do evento {{ event.name }}">
+    <img src="{{ event.event_photo_url }}" alt="Imagem do evento {{ event.name }}">
     <ul>
-        <li>Data: {{ event.date|date:"d/m/Y" }} </li>
-        <li>Horário: {{ event.time|date:"H:i" }} </li>
-        <li>Duração: {{ event.duration|date:"H:i" }} </li>
-        <li>Local: {{ event.place }} </li>
-        <li>Descrição: {{ event.description }} </li>
-        <li>Resumo: {{ event.summary }} </li>
-        <li>Lotação: {{ event.max_participants }} </li>
+        <h2 style="text-align:center">{{ event.name }}</h2>
+        <li><b>Data:</b> {{ event.date|date:"d/m/Y" }} </li>
+        <li><b>Horário:</b> {{ event.time|date:"H:i" }} </li>
+        <li><b>Duração:</b> {{ event.duration|date:"H:i" }} </li>
+        <li><b>Local:</b> {{ event.place }} </li>
+        <li><b>Descrição:</b> {{ event.description }} </li>
+        <li><b>Resumo:</b> {{ event.summary }} </li>
+        <li><b>Lotação: </b>{{ event.max_participants }} </li>
 
-        <li>Formato: {{ event.formato }} </li>
-        <li>Tema: {{ event.tema }} </li>
-        <li>Tipo de Organização: {{ event.tipo_organizacao }} </li>
+        <li><b>Formato:</b> {{ event.formato }} </li>
+        <li><b>Tema:</b> {{ event.tema }} </li>
+        <li><b>Tipo de Organização:</b> {{ event.tipo_organizacao }} </li>
     </ul>
-        
-        {% if user == event.promotor.user %}
-            <p><a href="{% url 'events:update' event.id %}">Editar</a></p>
-            <p><a href="{% url 'events:delete' event.id %}">Apagar</a></p>
-        {% endif %}
     
+    <det>
+        {% if user == event.promotor.user %}
+            <p style="text-align:center"><a href="{% url 'events:update' event.id %}"><button>Editar</button></a>
+                <a href="{% url 'events:delete' event.id %}"><button>Apagar</button></a></p>
+        {% endif %}
+
+        {% if is_favorite %}
+            <p style="text-align:center"><a href="{% url 'events:favorite_event' event.id %}"><button>Remover dos Interesses</button></a></p>
+        {% else %}
+            <p style="text-align:center"><a href="{% url 'events:favorite_event' event.id %}"><button>Adicionar aos Interesses</button></a></p>
+        {% endif %}
+
+    </det>
 
 </section>
 
@@ -35,7 +45,7 @@
 
 <section>
     <header>
-        <h3>Comentários</h3>
+        <h3 style="text-align:center">Comentários</h3>
     </header>
     <ul>
         {% if event.comment_set.all %}
@@ -48,7 +58,7 @@
                 </figure>
             {% endfor %}
         {% else %}
-            <p>Ainda não existe nenhum comentário para este evento.</p>
+            <p style="text-align:center">Ainda não existe nenhum comentário para este evento.</p>
         {% endif %}
     </ul>
 </section>
@@ -57,13 +67,7 @@
     
 <hr>
 
-{% if is_favorite %}
-<a href="{% url 'events:favorite_event' event.id %}"><button>Remover dos Interesses</button></a>
-{% else %}
-<a href="{% url 'events:favorite_event' event.id %}"><button>Adicionar aos Interesses</button></a>
-{% endif %}
-
-<a href="{% url 'events:comment' event.pk %}"><button>Crie seu Comentário</button></a>
+<p style="text-align:center"><a href="{% url 'events:comment' event.pk %}"><button>Crie seu Comentário</button></a></p>
 </section>
 
 {% endblock content %}

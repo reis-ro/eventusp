@@ -23,3 +23,11 @@ def about(request):
 def admin_approval(request):
     context = {}
     return render(request, 'staticpages/approvals.html', context)
+
+def termos(request):
+    context = {}
+    return render(request, 'staticpages/termos.html', context)
+
+def termos_promotor(request):
+    context = {}
+    return render(request, 'staticpages/termos_promotor.html', context)

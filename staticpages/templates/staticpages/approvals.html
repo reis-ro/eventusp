@@ -5,13 +5,13 @@ Aprovações de Administrador
 {% endblock title %}
 
 {% block content %}
-<h2>Aprovações</h2>
+<h2 style="text-align:center">Aprovações</h2>
 
-<p>Escolha o que você quer gerenciar:</p>
+<p style="text-align:center">Escolha o que você quer gerenciar:</p>
 
 <div class="list-group">
-    <a href="{% url 'events:admin_approval' %}" class="list-group-item list-group-item-action">Eventos</a>
-    <a href="{% url 'admin_approved' %}" class="list-group-item list-group-item-action">Promotores Aprovados</a>
-    <a href="{% url 'admin_approval' %}" class="list-group-item list-group-item-action">Promotores Pendentes</a>
+    <h4><a href="{% url 'events:admin_approval' %}" class="list-group-item list-group-item-action">Eventos</a></h4>
+    <h4><a href="{% url 'admin_approved' %}" class="list-group-item list-group-item-action">Promotores Aprovados</a></h4>
+    <h4><a href="{% url 'admin_approval' %}" class="list-group-item list-group-item-action">Promotores Pendentes</a></h4>
 </div>
 {% endblock content %}

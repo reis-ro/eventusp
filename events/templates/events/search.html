@@ -1,30 +1,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Busca de Eventos por Nome</h2>
-<form action="{% url 'events:search' %}">
+<h3 style="text-align:center">Busca de Eventos por Nome</h3>
+<form style="margin-left:24%" action="{% url 'events:search' %}">
     <p>
         <label for="id_query">Título:</label>
         <input type="text" name="query" id="id_query" />
     </p>
-    <button type="submit">Buscar</button>
+    <button style="margin-left: 26%" type="submit">Buscar</button>
 </form>
 
 
-<h2>Resultado da Busca</h2>
+<h3 style="text-align:center">Resultado da Busca</h3>
 {% if event_list %}
 <section class="lista-de-cards">
     {% for event in event_list %}
         {% if event.approved %}
             <article class="card">
-                <img src="{{ event.poster_url }}" alt="Poster do evento {{ event.name}}">
-                <p>{{ event.name }} ({{ event.date }})</p>
+                <img src="{{event.event_photo_url }}" alt="Poster do evento {{ event.name}}">
+                <h4 style="color:white; text-align:center">{{ event.name }}</h4>
+                <p style="color:white; text-align:center">({{ event.date }})</p>
             </article>
         {% endif %}
     {% endfor %}
 </section>
 {% else %}
-<p>Não foi encontrado nenhum evento para a busca.</p>
+<p style="text-align:center">Não foi encontrado nenhum evento para a busca.</p>
 {% endif %}
 
 {% endblock content %}

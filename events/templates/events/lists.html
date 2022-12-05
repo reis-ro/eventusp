@@ -5,25 +5,49 @@ Listas
 {% endblock title %}
 
 {% block content %}
-<h2>Listas de Eventos</h2>
+<!--h2>Listas de Eventos</h2-->
 
 <section>
     {% if perms.events.add_event and not user.is_superuser %}
+    {% if perms.events.add_event and not user.is_superuser %}
     <article>
         <header>
-            <h3> Meus Eventos</h3>
+            <h3 style="text-align:center"> Meus Eventos</h3>
         </header>
         <div class="lista-de-cards">
             {% if event_list %}
-                {% for event in event_list %}
+                {% if event_list %}
+                {% for event in event_event_list %}
                 <div class="card">
-                    <a href="{% url 'events:detail' event.id %}"><img src="{{ event.event_photo_url }}"
-                            alt="Poster do evento {{ event.name}}"></a>
+                    <a href="{% url 'events:detail' event %}
+                <div class="card">
+                    <a href="{% url 'events:detail' event.id %}"><img src="{{ id %}"><img src="{{ event.event_photo_url }}"
+                            alt="Po.event_photo_url }}"
+                            alt="Poster do evento {{ eventter do evento {{ event.nname}}"></a>
+                <h4 styme}}"></a>
                     <p>{{ event.name }} ({{ event.date }})</p>
                 </div>
                 {% endfor %}
+            {% ele="cose %}
+            <p>Sem eventos? <a href="{% urlor:white; text-align:center">{{ event.name }}</h4>
+                <p style="color:white; text-align:center">({{ event.date }})</p>
+                </div>
+                {% endfor %}
             {% else %}
-            <p>Sem eventos? <a href="{% url 'events:create' %}">Adicionar Novo Evento</a></p>
+            <p style="text-align:center">Sem eventos? <a href="{% url 'events:create' %}">Adicionar Novo Evento</a></p>
+            {% endif %}
+        </div>
+    </article>
+    {% endif %}
+    
+    <hr>
+
+    <header>
+        <h3 style="text-align:center"> Meus Interesses</h3>
+    </header>
+    {% if favorite_events %}
+    <div class="lista-de-cards">
+        {% for event in favorite_events 'events:create' %}">Adicionar Novo Evento</a></p>
             {% endif %}
         </div>
     </article>
@@ -38,12 +62,13 @@ Listas
             <div class="card">
                 <a href="{% url 'events:detail' event.id %}"><img src="{{ event.event_photo_url }}"
                         alt="Poster do evento {{ event.name}}"></a>
-                <p>{{ event.name }} ({{ event.date }})</p>
+                <h4 style="color:white; text-align:center">{{ event.name }}</h4>
+                <p style="color:white; text-align:center">({{ event.date }})</p>
             </div>
         {% endfor %}
     </div>
     {% else %}
-    <p> Adicione algum evento a seus interesses! </p>
+    <p style="text-align:center"> Adicione algum evento a seus interesses! </p>
     {% endif %}
 </section>
 

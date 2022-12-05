@@ -5,13 +5,14 @@ Criar Evento
 {% endblock title %}
 
 {% block content %}
-<h2>Adicionar Evento</h2>
+<h2 style="text-align:center">Adicionar Evento</h2>
 
-<form action="{% url 'events:create' %}" method="post">
+<form style="margin-left:22%" action="{% url 'events:create' %}" method="post">
     {% csrf_token %}
     {{ event_form.as_p }}
     {{ provider_form.as_p }}
-    <button type="submit">Criar</button>
+    <button style="margin-left:28%" type="submit">Criar</button>
 </form>
+<p style="padding-top: 15px; text-align:center"><b><a href="{% url 'events:index'%}">Voltar para a página de eventos</a></b></p>
 
 {% endblock content %}

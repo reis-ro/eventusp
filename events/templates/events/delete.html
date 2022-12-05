@@ -4,13 +4,14 @@
 {% if user == event.promotor.user %}
     <form action="{% url 'events:delete' event.id %}" method="post">
         {% csrf_token %}
-        <p>
+        <h4 style="text-align:center; padding-top:20px">
             Você tem certeza que deseja apagar o evento "{{ event.name }} ({{ event.date }})"?
-        </p>
-        <button type="submit">Apagar</button>
+        </h4>
+        <button button style="margin-left: 45%; margin-top: 20px;"type="submit">Apagar</button>
     </form>
+    <p style="padding-top: 15px; text-align:center"><b><a href="{% url 'events:detail' event.id %}">Voltar para a página do evento</a></b></p>
 {% else %}
-    <h2>Você não tem permissão para deletar este evento!</h2>
+    <h4 style="text-align:center">Você não tem permissão para deletar este evento!</h4>
 {% endif %}
 
 {% endblock content %}

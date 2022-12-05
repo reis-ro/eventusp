@@ -1,11 +1,11 @@
-{% extends 'base.html' %}
+{% extends 'base_notlogged.html' %}
 
 {% block title %}
 Criar Usuário
 {% endblock title %}
 
 {% block content %}
-<h2>Criar Usuário</h2>
+<h2 style="text-align:center">Criar Usuário</h2>
 
 <!-- <form method="post">
     {% csrf_token %}
@@ -13,19 +13,21 @@ Criar Usuário
     <button type="submit">Criar</button>
 </form> -->
 
-<form method="post">
+<form style="margin-left:24%" method="post">
     {% csrf_token %}
     {% for field in form %}
         <p>
             {{ field.errors }}
             {% if field.name == "termos_de_uso" %}
-                Li e concordo com os <a href="{% url 'password_reset' %}">Termos de Uso</a> {{ field }}
+                Li e concordo com os <a href="{% url 'termos' %}">Termos de Uso</a> {{ field }}
             {% else %}
                 {{ field.label_tag }} {{ field }}
             {% endif %}
         </p>
     {% endfor %}
-    <button type="submit">Criar</button>
+    <button style="margin-left:28%" type="submit">Criar</button>
     </form>
 
+    <p style="text-align:center"><a href="{% url 'index' %}">Voltar para página inicial</a></p>
+    
 {% endblock content %} 

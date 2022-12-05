@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Comentário Evento {{ event.name }} ({{ event.date }})</h2>
+<h3 style="text-align:center">Comentário Evento {{ event.name }} ({{ event.date }})</h3>
 
-<form action="{% url 'events:comment' event.id %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Postar Comentário</button>
-</form>
+<div class="caixa">
+    <form action="{% url 'events:comment' event.id %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button style="margin-left: 32%" type="submit">Postar Comentário</button>
+    </form>
+</div>
 
-<p><a href="{% url 'events:detail' event.id %}">Voltar para a página do evento</a></p>
+<p style="padding-top: 15px; text-align:center"><b><a href="{% url 'events:detail' event.id %}">Voltar para a página do evento</a></b></p>
 {% endblock content %}
