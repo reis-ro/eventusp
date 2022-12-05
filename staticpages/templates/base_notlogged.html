@@ -18,7 +18,6 @@
 <body>
     <header id="cabecalho-principal">
         <a href="{% url 'index' %}"> <img src="{% static 'logo.svg' %}"> </a> <!-- adicione esta linha -->
-
         <nav id="navegacao-principal">
             <ul>
                 {% if user.is_authenticated %}

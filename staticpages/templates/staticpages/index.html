@@ -17,7 +17,7 @@
                     <article class="card">
                         <a href="{% url 'events:detail' event.id %}"><img src="{{ event.event_photo_url }}"
                                 alt="Poster do evento {{ event.name}}"></a> <!-- modifique esta linha -->
-                        <p>{{ event.name }} ({{ event.date }})</p>
+                        <p style="color:white">{{ event.name }} ({{ event.date }})</p>
                     </article>
                 {% endif %}
             {% endfor %}
