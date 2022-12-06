@@ -41,6 +41,7 @@ class Publico(models.Model):
     unidade = models.ForeignKey(
             Unidade,
             on_delete=models.CASCADE,
+            null=True,
         )
     
 

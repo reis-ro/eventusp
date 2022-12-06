@@ -15,7 +15,7 @@ class PublicoRegisterForm(UserCreationForm):
 
     unidade = forms.ModelChoiceField(
                     queryset=Unidade.objects.all(),
-                    required=True,
+                    required=False,
             )
     
     termos_de_uso = forms.BooleanField(label='Termos de Uso')
@@ -24,6 +24,16 @@ class PublicoRegisterForm(UserCreationForm):
         model = User
         fields = ['first_name', 'last_name', 'email', 'cpf', 'password1', 'password2']
         labels = {'first_name': 'Nome', 'last_name': 'Sobrenome', 'email': 'Email', 'cpf': 'CPF'}
+
+    def clean_unidade(self):
+        papel_na_usp = self.cleaned_data.get('papel_na_usp')
+        unidade = self.cleaned_data.get('unidade')
+
+        if not unidade:
+            if (str(papel_na_usp) != 'Comunidade externa'):
+                raise ValidationError("Selecione uma unidade!")
+
+        return unidade
 
     def clean_cpf(self):
 
